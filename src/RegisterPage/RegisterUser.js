@@ -35,13 +35,40 @@ const initialFieldValues = {
 export default function RegisterUser() {
   const validate = () => {
     let temp = {};
-    temp.employee_name = values.employee_name;
+    temp.employee_name = values.employee_name ? "" : "This field is required";
+    temp.email = /$|.+@.+..+/.test(values.email)
+      ? ""
+      : "Email format not valid";
+    temp.departmentId = values.departmentId.length
+      ? ""
+      : "This field is required";
+    temp.org_level =
+      values.org_level.length != 0 ? "" : "This field is required";
+    temp.total_exp = values.total_exp ? "" : "This field is required";
+    temp.ad_tech_exp = values.ad_tech_exp ? "" : "This field is required";
+    temp.slack_time = values.slack_time ? "" : "This field is required";
+    temp.designation = values.designation ? "" : "This field is required";
+    temp.role = values.role ? "" : "This field is required";
+    temp.designation = values.designation ? "" : "This field is required";
+
+    setErrors({
+      ...temp,
+    });
+
+    return Object.values(temp).every((x) => x == ""); // if there is nothing entered in form, it should not validate on submit
+    //returns boolean values
   };
 
-  const { values, setValues, handleInputChange } = useForm(initialFieldValues);
+  const { values, setValues, errors, setErrors, handleInputChange } =
+    useForm(initialFieldValues);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) window.alert("testing...");
+  };
 
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Grid container>
         <Grid item xs={6}>
           <Controls.Input
@@ -49,6 +76,7 @@ export default function RegisterUser() {
             name="employee_name"
             value={values.employee_name}
             onChange={handleInputChange}
+            error={errors.employee_name}
           />
 
           <Controls.Input
