@@ -1,0 +1,27 @@
+.headerOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 20px;
+  color: white;
+  cursor: pointer;
+  text-decoration: none !important;
+}
+
+.headerOption:hover {
+  color: orangered;
+}
+
+.headerOptionTitle {
+  font-size: 12px;
+  font-weight: 400;
+  color: white;
+  text-decoration: none !important;
+}
+
+.headerOption__icon {
+  object-fit: contain;
+  height: 25px !important;
+  width: 25px !important;
+  text-decoration: none !important;
+}

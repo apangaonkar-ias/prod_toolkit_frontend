@@ -1,0 +1,80 @@
+* {
+  box-sizing: border-box;
+}
+
+.login {
+  display: grid;
+  place-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  background: white;
+  border-radius: 5px;
+  border: 1px gray;
+}
+
+.login > img {
+  object-fit: contain;
+  height: 70px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.login > form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login > form > input {
+  width: 350px;
+  height: 50px;
+  font-size: 20px;
+  padding-left: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.login > form > button {
+  width: 365px;
+  height: 50px;
+  font-size: large;
+  color: white;
+  background-color: black;
+  border-radius: 5px;
+}
+
+.login__register {
+  color: cornflowerblue;
+  cursor: pointer;
+}
+
+.login > p {
+  margin-top: 20px;
+}
+
+.login > form > label {
+  font-size: large;
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+.login > form > select {
+  font-size: large;
+  width: 365px;
+  height: 50px;
+  font-size: 20px;
+  padding-left: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.MuiPaper-root {
+  margin: 20px;
+  padding: 8px;
+  width: 1339px;
+}
+
+.MuiGrid-container {
+  width: 1339px;
+}

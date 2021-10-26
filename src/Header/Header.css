@@ -1,0 +1,38 @@
+/* #eef3f8 - gray code */
+
+.header {
+  background-color: #00324a;
+  display: flex;
+  justify-content: space-evenly;
+  border-bottom: 0.1px solid lightgray;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.header__left {
+  display: flex; /* everything goes in a line */
+}
+
+.header__left > img {
+  object-fit: contain; /* Keeps the aspect-ratio */
+  height: 40px;
+}
+
+.header__right {
+  display: flex;
+  margin-left: 500px;
+}
+.header__right > Link {
+  text-decoration: none;
+}
+
+.vl {
+  border-left: 2px solid white;
+  height: 45px;
+  margin-right: 30px;
+  margin-left: 20px;
+}

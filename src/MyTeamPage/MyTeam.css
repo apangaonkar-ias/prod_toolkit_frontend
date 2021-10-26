@@ -1,0 +1,57 @@
+.widget_padding {
+  margin-left: 50px;
+  margin-top: 10px;
+  /* margin: 20px; */
+}
+.TeamTable {
+  margin-left: 45px;
+  margin-right: 30px;
+}
+
+.TableHead {
+  background-color: black;
+}
+
+.pageField {
+  width: 70px;
+  padding: 0px;
+  height: 42px;
+  bottom: 8px;
+
+  /* text-align: center;
+  font-weight: bold;
+  height: 42px; */
+}
+
+.MuiTextField-root pageField {
+  bottom: 8px;
+}
+.MuiOutlinedInput-root {
+  height: 42px;
+  padding-top: 0px;
+}
+.MuiOutlinedInput-input {
+  text-align: center;
+}
+
+.fieldSet {
+  height: 45px;
+  width: 35px;
+}
+.buttonStyle {
+  height: 42px;
+}
+
+.footerLeft {
+  padding: 10px;
+  float: left;
+  margin-top: 20px;
+  color: black;
+  margin-left: 35px;
+}
+
+.footerRight {
+  color: whitesmoke;
+  padding: 10px;
+  border: black 1px;
+}

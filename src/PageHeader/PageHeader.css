@@ -1,0 +1,10 @@
+.MuiPaper-root {
+  margin-bottom: 15px;
+
+  padding: 7px;
+  width: 100%;
+}
+p {
+  /* opacity: 0.6; */
+  padding: 6px;
+}
