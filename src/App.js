@@ -24,13 +24,13 @@ import { CssBaseline } from "@material-ui/core";
 function App() {
   return (
     <>
-      {/* <Home /> */}
-      <Router>
+      <Home />
+      {/* <Router>
         <Header />
       </Router>
       <div>
         <Login />
-      </div>
+      </div> */}
       <CssBaseline />
     </>
   );

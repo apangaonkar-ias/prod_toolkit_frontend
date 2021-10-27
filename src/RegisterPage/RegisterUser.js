@@ -39,11 +39,8 @@ export default function RegisterUser() {
     temp.email = /$|.+@.+..+/.test(values.email)
       ? ""
       : "Email format not valid";
-    temp.departmentId = values.departmentId.length
-      ? ""
-      : "This field is required";
-    temp.org_level =
-      values.org_level.length != 0 ? "" : "This field is required";
+    temp.departmentId = values.departmentId ? "" : "This field is required";
+    temp.org_level = values.org_level ? "" : "This field is required";
     temp.total_exp = values.total_exp ? "" : "This field is required";
     temp.ad_tech_exp = values.ad_tech_exp ? "" : "This field is required";
     temp.slack_time = values.slack_time ? "" : "This field is required";
