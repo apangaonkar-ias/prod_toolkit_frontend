@@ -13,12 +13,18 @@ export function useForm(initialFieldValues) {
     });
   };
 
+  const resetForm = () => {
+    setValues(initialFieldValues);
+    setErrors({});
+  };
+
   return {
     values,
     setValues,
     errors,
     setErrors,
     handleInputChange,
+    resetForm,
   };
 }
 

@@ -36,7 +36,7 @@ export default function RegisterUser() {
   const validate = () => {
     let temp = {};
     temp.employee_name = values.employee_name ? "" : "This field is required";
-    temp.email = /$|.+@.+..+/.test(values.email)
+    temp.email = /$^|.+@.+..+/.test(values.email)
       ? ""
       : "Email format not valid";
     temp.departmentId = values.departmentId ? "" : "This field is required";
@@ -56,7 +56,7 @@ export default function RegisterUser() {
     //returns boolean values
   };
 
-  const { values, setValues, errors, setErrors, handleInputChange } =
+  const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
     useForm(initialFieldValues);
 
   const handleSubmit = (e) => {
@@ -81,6 +81,7 @@ export default function RegisterUser() {
             name="email"
             value={values.email}
             onChange={handleInputChange}
+            error={errors.email}
           />
 
           <Controls.Select
@@ -89,6 +90,7 @@ export default function RegisterUser() {
             label="Department"
             onChange={handleInputChange}
             options={getDepartmentCollection()}
+            error={errors.departmentId}
           />
 
           <Controls.Input
@@ -186,6 +188,7 @@ export default function RegisterUser() {
               size="large"
               text="Reset"
               type="reset"
+              onClick={resetForm}
               style={{ margin: "5px" }}
             />
           </div>
