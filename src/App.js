@@ -13,7 +13,7 @@ import MyProjects from "./MyProjectsPage/MyProjects";
 import MyTeam from "./MyTeamPage/MyTeam";
 import TeamSkills from "./TeamSkillsPage/TeamSkills";
 import Trends from "./TrendsPage/Trends";
-import Home from "./Home";
+import Home from "./LandingPage/Home";
 import RegisterUser from "./RegisterPage/RegisterUser";
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
