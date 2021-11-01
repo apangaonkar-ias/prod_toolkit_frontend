@@ -2,7 +2,9 @@
   margin-bottom: 15px;
 
   padding: 7px;
-  width: 1400px;
+}
+.MuiPaper-root {
+  width: 1000px;
 }
 p {
   /* opacity: 0.6; */

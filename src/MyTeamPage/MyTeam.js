@@ -17,6 +17,7 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import { KeyboardEvent } from "react";
 import PageHeader from "../PageHeader/PageHeader";
+import { CssBaseline } from "@material-ui/core";
 
 export default class MyTeam extends Component {
   constructor(props) {
@@ -265,6 +266,7 @@ export default class MyTeam extends Component {
             <h3 style={{ paddingTop: "180px" }}>Looker Representation</h3>
           </Paper>
         </div>
+        <CssBaseline />
       </>
     );
   }

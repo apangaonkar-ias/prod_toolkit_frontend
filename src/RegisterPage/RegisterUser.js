@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 // import Grid from "@mui/material/Grid";
 import { makeStyles } from "@mui/styles";
 import TextField from "@mui/material/TextField";
-
 import "./RegisterUser.css";
 import { useForm, Form } from "../useForm";
 import Controls from "../Controls/Controls";
