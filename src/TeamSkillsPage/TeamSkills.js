@@ -42,7 +42,9 @@ export default class TeamSkills extends Component {
       .then((response) => response.data)
       .then((data) => {
         this.setState({ skills: data });
+        console.log(data);
       });
+      
   }
   handleKeywordKeyPress = (e) => {
     if (e.key == "Enter" && e.target.value) {

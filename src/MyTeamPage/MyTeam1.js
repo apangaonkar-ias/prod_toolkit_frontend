@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState, useEffect } from 'react'
 import "./MyTeam.css";
 import axios from "axios";
 import Table from "@mui/material/Table";
@@ -25,137 +25,202 @@ import Controls from "../Controls/Controls";
 import Search from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
 import Popup from "../Popup";
+import {Link} from 'react-router-dom';
+import "../TeamSkillsPage/TeamSkills"
 
-
-
-
-export default class MyTeam extends Component {
-
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      users: [],
-      currentPage: 1,
-      usersPerPage: 5,
-    };
-  }
-
-  componentDidMount() {
-    this.findAllUsers();
-  }
-
-  findAllUsers() {
-    axios
-      .get("http://localhost:8080/toolkit/home")
-      .then((response) => response.data)
-      .then((data) => {
-        console.log(data);
-        this.setState({ users: data });
-      });
-  }
-
-  handleKeywordKeyPress = (e) => {
-    if (e.key == "Enter" && e.target.value) {
-      let x = e.target.value;
-      if (typeof e.target.value == "string") {
-        x = parseInt(e.target.value);
-      }
-      this.setState({
-        [e.target.name]: x,
-      });
+const useStyles = makeStyles(theme => ({
+    pageContent: {
+        margin: theme.spacing(5),
+        padding: theme.spacing(3)
+    },
+    searchInput: {
+        width: '75%'
+    },
+    newButton: {
+        position: 'absolute',
+        right: '10px'
     }
-  };
+}))
 
-  changePage = (e) => {
-    let x = e.target.value;
-
-    if (typeof x == "string" && x) {
-      x = parseInt(x);
-    }
-
-    this.setState({
-      [e.target.name]: x,
-    });
-  };
-
-  firstPage = () => {
-    if (this.state.currentPage > 1) {
-      this.setState({
-        currentPage: 1,
-      });
-    }
-  };
-
-  prevPage = () => {
-    if (this.state.currentPage > 1) {
-      this.setState({
-        currentPage: this.state.currentPage - 1,
-      });
-    }
-  };
-
-  lastPage = () => {
-    if (
-      this.state.currentPage <
-      Math.ceil(this.state.users.length / this.state.usersPerPage)
-    ) {
-      this.setState({
-        currentPage: Math.ceil(
-          this.state.users.length / this.state.usersPerPage
-        ),
-      });
-    }
-  };
-
-  nextPage = () => {
-    if (
-      this.state.currentPage <
-      Math.ceil(this.state.users.length / this.state.usersPerPage)
-    ) {
-      this.setState({
-        currentPage: this.state.currentPage + 1,
-      });
-    }
-  };
+export default function MyTeam1() {
 
 
-
-  handleSearch = e => {
-   
-}
-
-  render() {
-    const { users, currentPage, usersPerPage } = this.state;
+    const [users, setUsers] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const[usersPerPage, setUsersPerPage] = useState(5);
+    const classes = useStyles();
+    const [recordForEdit, setRecordForEdit] = useState(null)
+    const [filterFn, setFilterFn] = useState({ fn: items => { return items; } })
+    const [openPopup, setOpenPopup] = useState(false);
     const lastIndex = currentPage * usersPerPage;
     const firstIndex = lastIndex - usersPerPage;
-    const currentUsers = users.slice(firstIndex, lastIndex);
-    const totalPages = users.length / usersPerPage;
 
+ useEffect(() => {
+        // e.preventDefault();
+        findAllUsers();
+     
+ },[])
+
+// const    componentDidMount= () => {
+//         findAllUsers();
+//       }
+
+ const   findAllUsers = () => {
+     console.log("in finadALLusers")
+        axios
+          .get("http://localhost:8080/toolkit/home")
+          .then((response) => response.data)
+          .then((data) => {
+            console.log(data);
+
+            setUsers(data);
+            console.log(users);
+            // data=Object.values(data);
+            // console.log(setUsers);
+            const currentUsers = data.slice(firstIndex,lastIndex);
+            console.log(currentUsers); //object
+
+            // const newUser = {
+            //     id: Date.now(),
+            //     username: `User ${data.length +1}`
+                
+            // }
+            // console.log(newUser);
+            // const newUsers = [...users,newUser];
+            // setUsers(newUsers);
+
+            // setUsers([...users, data.slice(0,data.length)]);
+            // setUsers( users => [...users, data] );
+            
+            console.log('helloup');
+            
+            // setUsers({users:data});
+            console.log(users);
+           
+          });
+      }
+   
+    //   console.log(users);
+
+      const currentUsers = users.slice(firstIndex, lastIndex);
+
+    // const currentUsers = setUsers([
+    //     ...users.slice(firstIndex,lastIndex)
+    // ])
+    
+    // console.log(currentUsers);
+      
+      const totalPages = users.length / usersPerPage;
+    
+    //   const     handleKeywordKeyPress = (e) => {
+    //     if (e.key == "Enter" && e.target.value) {
+    //       let x = e.target.value;
+    //       if (typeof e.target.value == "string") {
+    //         x = parseInt(e.target.value);
+    //       }
+    //       this.setState({
+    //         [e.target.name]: x,
+    //       });
+    //     }
+    //   };
+    
+      const    changePage = (e) => {
+        let x = e.target.value;
+    
+        if (typeof x == "string" && x) {
+          x = parseInt(x);
+        }
+    
+        setCurrentPage( x
+          );
+      };
+    
+      const     firstPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(
+             1
+          );
+        }
+      };
+    
+      const     prevPage = () => {
+        if (currentPage > 1) {
+        
+            setCurrentPage( currentPage - 1);
+        }
+      };
+    
+      const     lastPage = () => {
+        if (
+          currentPage <
+          Math.ceil(users.length / usersPerPage)
+        ) {
+            setCurrentPage(Math.ceil(
+              users.length / usersPerPage
+            ),
+          );
+        }
+      };
+    
+      const    nextPage = () => {
+        if (
+            currentPage <
+          Math.ceil(users.length / usersPerPage)
+        ) {
+            setCurrentPage(currentPage + 1
+          );
+        }
+      };
+    
+    
+    
+      const handleSearch = e => {
+        let target = e.target;
+        setFilterFn({
+            fn: items => {
+                if (target.value == "")
+                    return items;
+                else
+                    return items.filter(x => x.fullName.toLowerCase().includes(target.value))
+            }
+        })
+    }
+
+  
+    
+
+    
     return (
-      <>
+        <>
         <div className="TeamTable">
           <PageHeader title="Team Page" subtitle="Make your team now!" />
           <TableContainer component={Paper}>
-            {/* <RegisterUser /> */}
+            
             <Toolbar>
                     <Controls.Input
                         label="Search Employees"
-                        
+                        className={classes.searchInput}
                         InputProps={{
                             startAdornment: (<InputAdornment position="start">
                                 <Search />
                             </InputAdornment>)
                         }}
-                        
+                        onChange={handleSearch}
                     />
-                    <Controls.Button
+                    {/* <Controls.Button
                       text = "Add New"
                       variant='outlined'
                       startIcon = {<AddIcon/>}
-                      
+                    /> */}
+                    
+                    <Controls.Button
+                        text="Add New"
+                        variant="outlined"
+                        startIcon={<AddIcon />}
+                        className={classes.newButton}
+                        onClick={() => { setOpenPopup(true); setRecordForEdit(null); }}
                     />
+                
             </Toolbar>
             <Table sx={{ maxWidth: 600 }} aria-label="a dense table">
               <TableHead>
@@ -258,7 +323,7 @@ export default class MyTeam extends Component {
                       className="buttonStyle"
                       variant="outlined"
                       disabled={currentPage === 1 ? true : false}
-                      onClick={this.firstPage}
+                      onClick={firstPage}
                     >
                       <FirstPageIcon /> First
                     </Button>
@@ -266,7 +331,7 @@ export default class MyTeam extends Component {
                       className="buttonStyle"
                       variant="outlined"
                       disabled={currentPage === 1 ? true : false}
-                      onClick={this.prevPage}
+                      onClick={prevPage}
                     >
                       <NavigateBeforeIcon />
                       Previous
@@ -280,7 +345,7 @@ export default class MyTeam extends Component {
                       className="pageField"
                       name="currentPage"
                       value={currentPage}
-                      onChange={this.changePage}
+                      onChange={changePage}
                     />
                   </div>
                   <FormGroup row>
@@ -288,7 +353,7 @@ export default class MyTeam extends Component {
                       className="buttonStyle"
                       variant="outlined"
                       disabled={currentPage === totalPages ? true : false}
-                      onClick={this.nextPage}
+                      onClick={nextPage}
                     >
                       Next <NavigateNextIcon />
                     </Button>
@@ -296,7 +361,7 @@ export default class MyTeam extends Component {
                       className="buttonStyle"
                       variant="outlined"
                       disabled={currentPage === totalPages ? true : false}
-                      onClick={this.lastPage}
+                      onClick={lastPage}
                     >
                       Last <LastPageIcon />
                     </Button>
@@ -312,9 +377,15 @@ export default class MyTeam extends Component {
           >
             <h3 style={{ paddingTop: "180px" }}>Looker Representation</h3>
           </Paper>
+          <Popup
+                title = "Employee Form"
+                openPopup={openPopup}
+                setOpenPopup={setOpenPopup}
+            >
+                <RegisterUser />
+                </Popup>
         </div>
         <CssBaseline />
       </>
-    );
-  }
+    )
 }

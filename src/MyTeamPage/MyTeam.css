@@ -1,3 +1,6 @@
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+  max-width: 1000px;
+}
 .widget_padding {
   margin-left: 50px;
   margin-top: 10px;
@@ -30,9 +33,10 @@
   height: 42px;
   padding-top: 0px;
 }
-.MuiOutlinedInput-input {
+
+/* .MuiOutlinedInput-input {
   text-align: center;
-}
+} */
 
 .fieldSet {
   height: 45px;

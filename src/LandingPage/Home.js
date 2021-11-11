@@ -10,7 +10,7 @@ import trendImage from "../images/trends.png";
 import projectImage from "../images/project.png";
 import Footer from "../Footer/Footer.js";
 import MyProjects from "../MyProjectsPage/MyProjects";
-import MyTeam from "../MyTeamPage/MyTeam";
+import MyTeam from "../MyTeamPage/MyTeam1";
 import TeamSkills from "../TeamSkillsPage/TeamSkills";
 import Trends from "../TrendsPage/Trends";
 import Home from "./Home";
