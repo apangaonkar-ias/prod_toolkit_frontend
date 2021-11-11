@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {useState, useEffect, Component } from "react";
 import teamSkillImage from "../images/skills.jpg";
 import Widgets from "../Widgets/Widgets";
 import "./TeamSkills.css";
@@ -20,107 +20,124 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import FormGroup from "@mui/material/FormGroup";
 import TextField from "@mui/material/TextField";
 import PageHeader from "../PageHeader/PageHeader";
+import { CssBaseline, Toolbar,InputAdornment, makeStyles} from "@material-ui/core";
 
-export default class TeamSkills extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      skills: [],
-      currentPage: 1,
-      usersPerPage: 5,
-    };
-  }
+const useStyles = makeStyles(theme => ({
+    pageContent: {
+        margin: theme.spacing(5),
+        padding: theme.spacing(3)
+    },
+    searchInput: {
+        width: '75%'
+    },
+    newButton: {
+        position: 'absolute',
+        right: '10px'
+    }
+}))
 
-  componentDidMount() {
-    this.findAllUsers_Skills();
-  }
 
-  findAllUsers_Skills() {
+export default function TeamSkills1() {
+
+    const [skills, setSkills] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const[usersPerPage, setUsersPerPage] = useState(5);
+    const classes = useStyles();
+    const [recordForEdit, setRecordForEdit] = useState(null)
+    const [filterFn, setFilterFn] = useState({ fn: items => { return items; } })
+    const [openPopup, setOpenPopup] = useState(false);
+    const lastIndex = currentPage * usersPerPage;
+    const firstIndex = lastIndex - usersPerPage;
+
+ useEffect(() => {
+        
+        findAllUsers_Skills();
+     
+ },[])
+
+const findAllUsers_Skills=() => {
     axios
       .get("http://localhost:8080/toolkit/home2")
       .then((response) => response.data)
       .then((data) => {
-        this.setState({ skills: data });
+        // this.setState({ skills: data });
+        setSkills(data);
         console.log(data);
   
       });
       
   }
-  handleKeywordKeyPress = (e) => {
-    if (e.key == "Enter" && e.target.value) {
+
+const currentUsers = skills.slice(firstIndex, lastIndex);
+
+
+const totalPages = skills.length / usersPerPage;
+
+  
+    const    changePage = (e) => {
       let x = e.target.value;
-      if (typeof e.target.value == "string") {
-        x = parseInt(e.target.value);
+  
+      if (typeof x == "string" && x) {
+        x = parseInt(x);
       }
-      this.setState({
-        [e.target.name]: x,
-      });
-    }
-  };
-
-  changePage = (e) => {
-    let x = e.target.value;
-
-    if (typeof x == "string" && x) {
-      x = parseInt(x);
-    }
-
-    this.setState({
-      [e.target.name]: x,
-    });
-  };
-
-  firstPage = () => {
-    if (this.state.currentPage > 1) {
-      this.setState({
-        currentPage: 1,
-      });
-    }
-  };
-
-  prevPage = () => {
-    if (this.state.currentPage > 1) {
-      this.setState({
-        currentPage: this.state.currentPage - 1,
-      });
-    }
-  };
-
-  lastPage = () => {
-    if (
-      this.state.currentPage <
-      Math.ceil(this.state.skills.length / this.state.usersPerPage)
-    ) {
-      this.setState({
-        currentPage: Math.ceil(
-          this.state.skills.length / this.state.usersPerPage
-        ),
-      });
-    }
-  };
-
-  nextPage = () => {
-    if (
-      this.state.currentPage <
-      Math.ceil(this.state.skills.length / this.state.usersPerPage)
-    ) {
-      this.setState({
-        currentPage: this.state.currentPage + 1,
-      });
-    }
-  };
-
-  render() {
-
-    const { skills, currentPage, usersPerPage } = this.state;
-    const lastIndex = currentPage * usersPerPage;
-    const firstIndex = lastIndex - usersPerPage;
-    const currentUsers = skills.slice(firstIndex, lastIndex);
-    const totalPages = skills.length / usersPerPage;
+  
+      setCurrentPage( x
+        );
+    };
+  
+    const     firstPage = () => {
+      if (currentPage > 1) {
+          setCurrentPage(
+           1
+        );
+      }
+    };
+  
+    const     prevPage = () => {
+      if (currentPage > 1) {
+      
+          setCurrentPage( currentPage - 1);
+      }
+    };
+  
+    const     lastPage = () => {
+      if (
+        currentPage <
+        Math.ceil(skills.length / usersPerPage)
+      ) {
+          setCurrentPage(Math.ceil(
+            skills.length / usersPerPage
+          ),
+        );
+      }
+    };
+  
+    const    nextPage = () => {
+      if (
+          currentPage <
+        Math.ceil(skills.length / usersPerPage)
+      ) {
+          setCurrentPage(currentPage + 1
+        );
+      }
+    };
+  
+const handleSearch = e => {
+    let target = e.target;
+    setFilterFn({
+        fn: items => {
+            if (target.value == "")
+                return items;
+            else
+                return items.filter(x => x.fullName.toLowerCase().includes(target.value))
+        }
+    })
+}
+  
 
     return (
-      <div className="TeamTable">
+        <div className="TeamTable">
         <PageHeader title="Team Skills Page" subtitle="Check skills your team possesses" />
         <TableContainer component={Paper}>
           <Table sx={{ maxWidth: 500 }} aria-label="a dense table">
@@ -238,7 +255,7 @@ export default class TeamSkills extends Component {
                     className="buttonStyle"
                     variant="outlined"
                     disabled={currentPage === 1 ? true : false}
-                    onClick={this.firstPage}
+                    onClick={firstPage}
                   >
                     <FirstPageIcon /> First
                   </Button>
@@ -246,7 +263,7 @@ export default class TeamSkills extends Component {
                     className="buttonStyle"
                     variant="outlined"
                     disabled={currentPage === 1 ? true : false}
-                    onClick={this.prevPage}
+                    onClick={prevPage}
                   >
                     <NavigateBeforeIcon />
                     Previous
@@ -260,7 +277,7 @@ export default class TeamSkills extends Component {
                     className="pageField"
                     name="currentPage"
                     value={currentPage}
-                    onChange={this.changePage}
+                    onChange={changePage}
                   />
                 </div>
                 <FormGroup row>
@@ -268,7 +285,7 @@ export default class TeamSkills extends Component {
                     className="buttonStyle"
                     variant="outlined"
                     disabled={currentPage === totalPages ? true : false}
-                    onClick={this.nextPage}
+                    onClick={nextPage}
                   >
                     Next <NavigateNextIcon />
                   </Button>
@@ -276,7 +293,7 @@ export default class TeamSkills extends Component {
                     className="buttonStyle"
                     variant="outlined"
                     disabled={currentPage === totalPages ? true : false}
-                    onClick={this.lastPage}
+                    onClick={lastPage}
                   >
                     Last <LastPageIcon />
                   </Button>
@@ -295,5 +312,4 @@ export default class TeamSkills extends Component {
           </Paper>
       </div>
     );
-  }
 }

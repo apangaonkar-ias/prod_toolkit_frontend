@@ -11,7 +11,7 @@ import projectImage from "../images/project.png";
 import Footer from "../Footer/Footer.js";
 import MyProjects from "../MyProjectsPage/MyProjects";
 import MyTeam from "../MyTeamPage/MyTeam1";
-import TeamSkills from "../TeamSkillsPage/TeamSkills";
+import TeamSkills from "../TeamSkillsPage/TeamSkills1";
 import Trends from "../TrendsPage/Trends";
 import Home from "./Home";
 
