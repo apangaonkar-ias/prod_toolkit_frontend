@@ -2,6 +2,8 @@ import React from "react";
 import "./App.css";
 import Home from "./LandingPage/Home";
 import RegisterUser from "./RegisterPage/RegisterUser";
+import Header from "./Header/Header";
+import Login from "./Login/Login";
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { CssBaseline } from "@material-ui/core";
@@ -12,13 +14,6 @@ function App() {
   return (
     <>
       <Home />
-      {/* <Router>
-        <Header />
-      </Router>
-      <div>
-        <Login />
-      </div> */}
-      <CssBaseline />
     </>
   );
 }

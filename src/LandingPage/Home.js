@@ -24,12 +24,12 @@ import RegisterUser from "../RegisterPage/RegisterUser";
 function App() {
   return (
     <Router>
-      {/* <RegisterUser /> */}
+      
       <div className="app">
         <Header />
 
         <div className="app__body">
-          {/* <Login /> */}
+          
 
           {/* App Body */}
           <div>
@@ -42,6 +42,7 @@ function App() {
             <Route path="/Team" component={MyTeam} />
             <Route path="/Skills" component={TeamSkills} />
             <Route path="/Trends" component={Trends} />
+            <Route path="/edit/:id" component={RegisterUser} />
 
             <div className="widgetsss">
               <div className="widget_padding">

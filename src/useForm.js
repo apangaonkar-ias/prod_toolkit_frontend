@@ -7,16 +7,25 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
   const [errors, setErrors] = useState({});
 
   const handleInputChange = (e) => {
+    console.log("In handle input change");
+
     const { name, value } = e.target;
     setValues({
       ...values,
       [name]: value,
     });
+
+    console.log("In handle input change");
+    console.log(values);
     if (validateOnChange) validate({ [name]: value });
   };
 
+  
   const resetForm = () => {
+    console.log("INside Reset Funtionality")
     setValues(initialFValues);
+    console.log(initialFValues);
+    console.log("INside Reset Funtionality")
     setErrors({});
   };
 

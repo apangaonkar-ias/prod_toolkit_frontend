@@ -1,48 +1,58 @@
 import React, { useState, useEffect } from "react";
-// import Grid from "@mui/material/Grid";
 import { makeStyles } from "@mui/styles";
-import TextField from "@mui/material/TextField";
 import "./RegisterUser.css";
 import { useForm, Form } from "../useForm";
 import Controls from "../Controls/Controls";
 import Select from "../Controls/Select";
-
+import axios from "axios";
 import { Grid } from "@material-ui/core";
-// import Controls from "../../components/controls/Controls";
-// import { useForm, Form } from "../../components/useForm";
-import * as employeeService from "../Services/employeeService";
+// import * as employeeService from "../Services/employeeService";
+// import * as MyTeam from "../MyTeamPage/MyTeam1";
+import MyTeam1 from "../MyTeamPage/MyTeam1";
+// import {findAllUsers} from "../MyTeamPage/MyTeam1";
 
+import userEvent from "@testing-library/user-event";
 
-
-const genderItems = [
-  { id: "male", title: "Male" },
-  { id: "female", title: "Female" },
-  { id: "other", title: "Other" },
-];
 
 const initialFValues = {
-  e_id: 0,
+
   employee_name: "",
   team: "",
-  location: "",
   designation: "",
   role: "",
   email: "",
-  mobile: "",
-  city: "",
-  gender: "male",
   org_level: "",
   certifications: "",
   projects: "",
-  departmentId: "",
+  department: "",
   hireDate: new Date(),
-  isPermanent: false,
   total_exp: 0.0,
   ad_tech_exp: 0.0,
   slack_time: 0.0,
+
 };
 
-export default function RegisterUser() {
+export default function RegisterUser(props) {
+
+  const {recordForEdit} = props;
+    const [e_id, set_e_id] = useState('');
+   const [employee_name, set_employee_name] = useState('');
+   const [team, setTeam] = useState('');
+   const [designation, setDesignation] = useState('');
+   const [role, setRole] = useState('');
+   const [email, setEmail] = useState('');
+   const [org_level, setOrg_level] = useState('');
+   const [certifications, setCertifications] = useState('');
+   const [projects, setProjects] = useState('');
+   const [department, setdepartment] = useState('');
+   const [hireDate, sethireDate] = useState('');
+   const [total_exp, setTotal_exp] =useState('');
+   const [ad_tech_exp, setAd_tech_exp] = useState('');
+   const [slack_time, setSlack_time] = useState('');
+   const [flag, setFlag] = useState(-1);
+
+
+
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("employee_name" in fieldValues)
@@ -56,9 +66,9 @@ export default function RegisterUser() {
     if ("mobile" in fieldValues)
       temp.mobile =
         fieldValues.mobile.length > 9 ? "" : "Minimum 10 numbers required.";
-    if ("departmentId" in fieldValues)
-      temp.departmentId =
-        fieldValues.departmentId.length != 0 ? "" : "This field is required.";
+    if ("department" in fieldValues)
+      temp.department =
+        fieldValues.department.length != 0 ? "" : "This field is required.";
     if ("org_level" in fieldValues) {
       temp.org_level = fieldValues.org_level ? "" : "This field is required";
     }
@@ -88,129 +98,282 @@ export default function RegisterUser() {
     if (fieldValues == values) return Object.values(temp).every((x) => x == "");
   };
 
-  const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
-    useForm(initialFValues, true, validate);
+  const { values, setValues, errors, setErrors, handleInputChange, resetForm } = 
+  useForm(initialFValues, true, validate );
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate()) {
-      employeeService.insertEmployee(values);
-      resetForm();
-    }
+  // const findAllUsers = MyTeam1();
+
+  const handleEdit = (findAllUsers) => {
+
+    
+        // e.preventDefault();
+        console.log("Handling Edit funtionality"); 
+
+        var postData = new FormData();
+        
+        // postData.append("e_id", e_id)
+        postData.append("employee_name", values.employee_name)
+        postData.append("team", values.team)
+        postData.append("email", values.email)
+        postData.append("department", values.department)
+        postData.append("org_level", values.org_level)
+        postData.append("total_exp", values.total_exp)
+        postData.append("ad_tech_exp", values.ad_tech_exp)
+        postData.append("slack_time", values.slack_time)
+        postData.append("designation", values.designation)
+        postData.append("role", values.role)
+        postData.append("certifications", values.certifications)
+        postData.append("projects", values.projects)
+        postData.append("hireDate", values.hireDate)
+        console.log(employee_name);
+
+
+        for (var pair of postData.entries()) {
+          console.log(pair[0]+ " "+ pair[1]);
+        }
+
+        console.log("Put ke andar ho sir");
+        var config =  {
+          
+          method: 'put',
+          url: 'http://localhost:8080/toolkit/updateEmp/'+values.e_id,   
+          data : postData,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        };
+
+        console.log(config.data);
+        console.log("Put ke andar ho sir");
+
+        axios(config)
+        .then(function (response) {
+          console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+        console.log("Put ke andar ho sir");
+          // MyTeam.setOpenPopup(false);
+          // setUsers(data);
+        
+          //findAllUsers();
+
+  }
+  
+
+  const handleSubmit = (findAllUsers) => {
+
+        // e.preventDefault();
+        console.log("In handle Submit");
+        if (validate()) { 
+
+        var postData = new FormData();
+
+        postData.append("employee_name", values.employee_name)
+        postData.append("team", values.team)
+        postData.append("email", values.email)
+        postData.append("department", values.department)
+        postData.append("org_level", values.org_level)
+        postData.append("total_exp", values.total_exp)
+        postData.append("ad_tech_exp", values.ad_tech_exp)
+        postData.append("slack_time", values.slack_time)
+        postData.append("designation", values.designation)
+        postData.append("role", values.role)
+        postData.append("certifications", values.certifications)
+        postData.append("projects", values.projects)
+        postData.append("hireDate", values.hireDate)
+
+        
+          console.log("Inside Add");
+          console.log(postData);
+
+          for (var pair of postData.entries()) {
+            console.log(pair[0]+ " "+ pair[1]);
+          }
+     
+          axios({
+            method: "post",
+            url: "http://localhost:8080/toolkit/addEmp",
+            data: postData,
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+          .then((response) => response.data)
+          .then((data) => {
+            console.log(data);
+            setValues(initialFValues);
+
+        
+          });
+          
+        }
+       // findAllUsers();
+
   };
 
+  useEffect(() => {
+    console.log("Inside Useeffect");
+    console.log(recordForEdit);
+    if(recordForEdit != null){
+      setFlag(1);
+      setValues({
+        ...recordForEdit
+      })
+    }
+  }, [recordForEdit])
+
+
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form >
       <Grid container>
         <Grid item xs={6}>
+
           <Controls.Input
             name="employee_name"
             label="Full Name"
-            value={values.employee_name}
-            onChange={handleInputChange}
+            // value= {recordForEdit === null ? employee_name : values.employee_name}
+            value= {values.employee_name}
+            // onChange={(e) => set_employee_name(e.target.value)}
+            onChange = { handleInputChange } 
             error={errors.employee_name}
           />
+
           <Controls.Input
             label="Email"
             name="email"
-            value={values.email}
-            onChange={handleInputChange}
+            // value= {recordForEdit=== null ? email : values.email}
+            value= {values.email}
+            // onChange={(e) => setEmail(e.target.value)}
+            onChange = {handleInputChange}
+
             error={errors.email}
           />
-          <Controls.Select
-            name="departmentId"
-            value={values.departmentId}
+
+          {/* <Controls.Select
+            name="department"
+            value= {recordForEdit=== null ? department : values.department}
+            
             label="Department"
-            onChange={handleInputChange}
+            onChange={(e) => setdepartment(e.target.value)}
             options={employeeService.getDepartmentCollection()}
-            error={errors.departmentId}
-          />
+            error={errors.department}
+          /> */}
+
           <Controls.Input
-            label="Mobile"
-            name="mobile"
-            value={values.mobile}
-            onChange={handleInputChange}
-            error={errors.mobile}
-          />
+          label = "Department"
+          name="department"
+          // value= {recordForEdit=== null ? department : values.department}
+          value= {values.department}
+          errors={errors.department} 
+          // onChange={(e) => setdepartment(e.target.value)}
+          onChange = {handleInputChange}/>
+
+          
+        
           <Controls.Input
             label="Organisation Level"
             name="org_level"
-            value={values.org_level}
-            onChange={handleInputChange}
+            // value= {recordForEdit=== null ? org_level : values.org_level}
+            value= {values.org_level}
+            // onChange={(e) => setOrg_level(e.target.value)}
+            onChange = {handleInputChange}
             error={errors.org_level}
           />{" "}
+
           <Controls.Input
             label="Total Experience"
             name="total_exp"
-            value={values.total_exp}
-            onChange={handleInputChange}
+            // value= {recordForEdit=== null ? total_exp : values.total_exp}
+            // onChange={(e) => setTotal_exp(e.target.value)}
+            value= {values.total_exp}
+            onChange = {handleInputChange}
             error={errors.total_exp}
           />
+
           <Controls.Input
             label="Ad Tech Experience"
             name="ad_tech_exp"
-            value={values.ad_tech_exp}
-            onChange={handleInputChange}
+            // value= {recordForEdit=== null ? ad_tech_exp : values.ad_tech_exp}
+            value= {values.ad_tech_exp}
+            // onChange={(e) => setAd_tech_exp(e.target.value)}
+            onChange = {handleInputChange}
             error={errors.ad_tech_exp}
           />
+
           <Controls.Input
             label="Slack Time"
             name="slack_time"
-            value={values.slack_time}
-            onChange={handleInputChange}
+            // value= {recordForEdit=== null ? slack_time : values.slack_time}
+            value= {values.slack_time}
+            // onChange={(e) => setSlack_time(e.target.value)}
+            onChange = {handleInputChange}
             error={errors.slack_time}
           />
+
         </Grid>
         <Grid item xs={6}>
-          <Controls.RadioGroup
-            name="gender"
-            label="Gender"
-            value={values.gender}
-            onChange={handleInputChange}
-            items={genderItems}
-            error={errors.gender}
-          />
+          
           <Controls.Input
             label="Designation"
             name="designation"
-            value={values.designation}
-            onChange={handleInputChange}
+            // value= {recordForEdit=== null ? designation : values.designation}
+            value= {values.designation}
+            // onChange={(e) => setDesignation(e.target.value)}
+            onChange = {handleInputChange}
             error={errors.designation}
           />{" "}
+
+          <Controls.Input
+            label="Team"
+            name="team"
+            // value= {recordForEdit=== null ? team : values.team}
+            value= {values.team}
+            onChange = {handleInputChange}
+            error={errors.team}
+          />
+
           <Controls.Input
             label="Role"
             name="role"
-            value={values.role}
-            onChange={handleInputChange}
+            // value= {recordForEdit=== null ? role : values.role}
+            value= {values.role}
+            // onChange={(e) => setRole(e.target.value)}
+            onChange = {handleInputChange}
             error={errors.role}
           />
+
           <Controls.Input
             label="Certifications"
             name="certifications"
-            value={values.certifications}
-            onChange={handleInputChange}
+            // value= {recordForEdit=== null ? certifications : values.certifications}
+            value= {values.certifications}
+
+            // onChange={(e) => setCertifications(e.target.value)}
+            onChange = {handleInputChange}
           />
+
           <Controls.Input
             label="Projects"
             name="projects"
-            value={values.projects}
-            onChange={handleInputChange}
+            value= {recordForEdit=== null ? projects : values.projects}
+            value= {values.projects}
+
+            // onChange={(e) => setProjects(e.target.value)}
+            onChange = {handleInputChange}
           />
+
           <Controls.DatePicker
             name="hireDate"
             label="Hire Date"
-            value={values.hireDate}
-            onChange={handleInputChange}
+            // value= {recordForEdit=== null ? hireDate : values.hireDate}
+            value= {values.hireDate}
+            // onChange={(e) => sethireDate(e.target.value)}
+            onChange = {handleInputChange}
             error={errors.hireDate}
           />
-          <Controls.Checkbox
-            name="isPermanent"
-            label="Permanent Employee"
-            value={values.isPermanent}
-            onChange={handleInputChange}
-          />
+          
           <div>
-            <Controls.Button type="submit" text="Submit" />
+            <Controls.Button type="submit" text={flag  === -1 ? "Add User" : "Update User" } onClick={flag  === -1 ?handleSubmit:handleEdit}/>
             <Controls.Button text="Reset" color="default" onClick={resetForm} />
           </div>
         </Grid>

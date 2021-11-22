@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const KEYS ={
     employees:'employees',
     employeeId:'employeeId'
@@ -26,7 +28,18 @@ export function generateEmployeeId() {
 }
 
 export function getAllEmployees() {
-    if (localStorage.getItem(KEYS.employees) == null)
-        localStorage.setItem(KEYS.employees, JSON.stringify([]))
-    return JSON.parse(localStorage.getItem(KEYS.employees));
+    // if (localStorage.getItem(KEYS.employees) == null)
+    //     localStorage.setItem(KEYS.employees, JSON.stringify([]))
+    axios
+      .get("http://localhost:8080/toolkit/home")
+      .then((response) => response.data)
+      .then((data) => {
+        console.log(data);
+        // setUsers(data);
+        return data;
+      });
+      
+    // return JSON.parse(localStorage.getItem(KEYS.employees));
+
+   
 }
