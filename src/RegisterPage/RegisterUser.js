@@ -10,9 +10,9 @@ import { Grid } from "@material-ui/core";
 // import * as MyTeam from "../MyTeamPage/MyTeam1";
 import MyTeam1 from "../MyTeamPage/MyTeam1";
 // import {findAllUsers} from "../MyTeamPage/MyTeam1";
+import Popup from "../Popup";
 
-import userEvent from "@testing-library/user-event";
-
+import Notification from "../Notification";
 
 const initialFValues = {
 
@@ -50,7 +50,12 @@ export default function RegisterUser(props) {
    const [ad_tech_exp, setAd_tech_exp] = useState('');
    const [slack_time, setSlack_time] = useState('');
    const [flag, setFlag] = useState(-1);
-
+   const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+  const [openPopup, setOpenPopup] = useState(false);
 
 
   const validate = (fieldValues = values) => {
@@ -103,15 +108,13 @@ export default function RegisterUser(props) {
 
   // const findAllUsers = MyTeam1();
 
-  const handleEdit = (findAllUsers) => {
+  const handleEdit = (e) => {
 
-    
-        // e.preventDefault();
+        e.preventDefault();
         console.log("Handling Edit funtionality"); 
 
         var postData = new FormData();
         
-        // postData.append("e_id", e_id)
         postData.append("employee_name", values.employee_name)
         postData.append("team", values.team)
         postData.append("email", values.email)
@@ -127,14 +130,12 @@ export default function RegisterUser(props) {
         postData.append("hireDate", values.hireDate)
         console.log(employee_name);
 
-
         for (var pair of postData.entries()) {
           console.log(pair[0]+ " "+ pair[1]);
         }
 
         console.log("Put ke andar ho sir");
         var config =  {
-          
           method: 'put',
           url: 'http://localhost:8080/toolkit/updateEmp/'+values.e_id,   
           data : postData,
@@ -146,25 +147,31 @@ export default function RegisterUser(props) {
         console.log(config.data);
         console.log("Put ke andar ho sir");
 
-        axios(config)
-        .then(function (response) {
-          console.log(JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        axios(config);
+        // .then(function (response) {
+        //   console.log(JSON.stringify(response.data));
+        // })
+        // .catch(function (error) {
+        //   console.log(error);
+        // });
         console.log("Put ke andar ho sir");
           // MyTeam.setOpenPopup(false);
           // setUsers(data);
         
           //findAllUsers();
+          setNotify({
+            isOpen:true,
+            message:"Submitted Succesfully",
+            type:"success"
+          })
+          setOpenPopup(false);
 
   }
   
 
-  const handleSubmit = (findAllUsers) => {
+  const handleSubmit = (e) => {
 
-        // e.preventDefault();
+        e.preventDefault();
         console.log("In handle Submit");
         if (validate()) { 
 
@@ -202,7 +209,7 @@ export default function RegisterUser(props) {
           .then((data) => {
             console.log(data);
             setValues(initialFValues);
-
+            
         
           });
           
@@ -224,6 +231,7 @@ export default function RegisterUser(props) {
 
 
   return (
+    <>
     <Form >
       <Grid container>
         <Grid item xs={6}>
@@ -379,5 +387,15 @@ export default function RegisterUser(props) {
         </Grid>
       </Grid>
     </Form>
+    <Popup
+          title="Employee Form"
+          openPopup={openPopup}
+          setOpenPopup={setOpenPopup}
+        >
+          <RegisterUser />
+        </Popup>
+  <Notification notify={notify} setNotify={setNotify} />
+  </>
+
   );
 }

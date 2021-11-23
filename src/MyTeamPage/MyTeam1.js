@@ -34,6 +34,8 @@ import Popup from "../Popup";
 import "../TeamSkillsPage/TeamSkills";
 import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
 import DeleteOutlineTwoToneIcon from "@mui/icons-material/DeleteOutlineTwoTone";
+import Notification from "../Notification";
+import ConfirmDialog from "../ConfirmDialog";
 
 // import { getAllEmployees } from "../Services/employeeService";
 import * as employeeService from "../Services/employeeService";
@@ -59,18 +61,26 @@ export default function MyTeam1() {
   const [usersPerPage, setUsersPerPage] = useState(5);
   const classes = useStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
-
-  // const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
-  //   useForm(initialFValues, true, validate);
-
   const [filterFn, setFilterFn] = useState({
-    fn: (items) => {
-      return items;
+    fn: (users) => {
+      return users;
     },
   });
   const [openPopup, setOpenPopup] = useState(false);
   const lastIndex = currentPage * usersPerPage;
   const firstIndex = lastIndex - usersPerPage;
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
 
   useEffect(() => {
     findAllUsers();
@@ -143,6 +153,7 @@ export default function MyTeam1() {
   };
 
   const handleSearch = (e) => {
+    console.log("Inside Handle Search");
     let target = e.target;
     setFilterFn({
       fn: (users) => {
@@ -155,28 +166,37 @@ export default function MyTeam1() {
     });
   };
 
-  const addOrEdit = (employee, resetForm) => {
-    if (employee.id == 0) {
-      //employeeService.insertEmployee(employee);
-      axios.post("");
-      console.log("In add service - myteam1.js");
-    } else {
-      //employeeService.updateEmployee(employee);
-      console.log("In edit service - myteam1.js");
-    }
-    resetForm();
-    setRecordForEdit(null);
-    setOpenPopup(false);
-    //setRecords(findAllUsers());
-  };
+  // const addOrEdit = (employee, resetForm) => {
+  //   if (employee.id == 0) {
+  //     //employeeService.insertEmployee(employee);
+  //     axios.post("");
+  //     console.log("In add service - myteam1.js");
+  //   } else {
+  //     //employeeService.updateEmployee(employee);
+  //     console.log("In edit service - myteam1.js");
+  //   }
+  //   //resetForm();
+  //   setRecordForEdit(null);
+  //   setOpenPopup(false);
+  //   //setRecords(findAllUsers());
+  // };
 
   const deleteUser = (userId) => {
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+
     axios
       .delete("http://localhost:8080/toolkit/deleteEmp/" + userId)
       .then((response) => {
         if (response.data != null) {
-          alert("User Deleted Succesfully");
           findAllUsers();
+          setNotify({
+            isOpen: true,
+            message: "Deleted Succesfully",
+            type: "error",
+          });
         }
       });
   };
@@ -204,11 +224,6 @@ export default function MyTeam1() {
               }}
               onChange={handleSearch}
             />
-            {/* <Controls.Button
-                      text = "Add New"
-                      variant='outlined'
-                      startIcon = {<AddIcon/>}
-                    /> */}
 
             <Controls.Button
               text="Add New"
@@ -316,7 +331,14 @@ export default function MyTeam1() {
                         color="secondary"
                         variant="outlined"
                         onClick={() => {
-                          deleteUser(user.e_id);
+                          setConfirmDialog({
+                            isOpen: true,
+                            title: "Are you sure you want to delete?",
+                            subTitle: "You can't undo this operation",
+                            onConfirm: () => {
+                              deleteUser(user.e_id);
+                            },
+                          });
                         }}
                       >
                         <DeleteOutlineTwoToneIcon fontSize="small" />
@@ -403,9 +425,17 @@ export default function MyTeam1() {
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
         >
-          <RegisterUser recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
+          {/* <RegisterUser recordForEdit={recordForEdit} addOrEdit={addOrEdit} /> */}
+          <RegisterUser recordForEdit={recordForEdit} />
         </Popup>
       </div>
+
+      <Notification notify={notify} setNotify={setNotify} />
+      <ConfirmDialog
+        confirmDialog={confirmDialog}
+        setConfirmDialog={setConfirmDialog}
+      />
+
       <CssBaseline />
     </>
   );
