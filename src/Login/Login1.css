@@ -1,0 +1,21 @@
+.login-form {
+  justify-content: center;
+  min-height: 90vh;
+  /* min-width: 400px; */
+}
+.button-block {
+  width: 100%;
+}
+.login-background {
+  justify-content: center;
+  min-height: 30vh;
+  padding: 50px;
+}
+
+.image__logo {
+  object-fit: contain;
+  height: 50px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  /* align-items: center; */
+}

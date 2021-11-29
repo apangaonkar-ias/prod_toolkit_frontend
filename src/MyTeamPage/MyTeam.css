@@ -1,6 +1,14 @@
 .css-1t1j96h-MuiPaper-root-MuiDialog-paper {
   max-width: 1000px;
 }
+
+.app__body {
+  display: flex;
+  width: 100%;
+  padding-top: 20px;
+  padding-left: 30px;
+}
+
 .widget_padding {
   margin-left: 50px;
   margin-top: 10px;

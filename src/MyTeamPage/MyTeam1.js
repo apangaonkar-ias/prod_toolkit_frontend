@@ -24,6 +24,7 @@ import {
   InputAdornment,
   makeStyles,
 } from "@material-ui/core";
+
 import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RegisterUser from "../RegisterPage/RegisterUser";
@@ -36,9 +37,13 @@ import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTo
 import DeleteOutlineTwoToneIcon from "@mui/icons-material/DeleteOutlineTwoTone";
 import Notification from "../Notification";
 import ConfirmDialog from "../ConfirmDialog";
+import Footer from "../Footer/Footer";
 
 // import { getAllEmployees } from "../Services/employeeService";
 import * as employeeService from "../Services/employeeService";
+import Sidebar from "../Sidebar/Sidebar";
+import Header from "../Header/Header";
+import TableauEmp from "../TableauEmbed/TableauEmp";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -208,239 +213,244 @@ export default function MyTeam1() {
 
   return (
     <>
-      <div className="TeamTable">
-        <PageHeader title="Team Page" subtitle="Make your team now!" />
-        <TableContainer component={Paper}>
-          <Toolbar>
-            <Controls.Input
-              label="Search Employees"
-              className={classes.searchInput}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Search />
-                  </InputAdornment>
-                ),
-              }}
-              onChange={handleSearch}
-            />
+      <Header />
+      <div className="app__body">
+        <div>
+          <Sidebar />
+        </div>
+        <div className="TeamTable">
+          <PageHeader title="Team Page" subtitle="Make your team now!" />
+          <TableContainer component={Paper}>
+            <Toolbar>
+              <Controls.Input
+                label="Search Employees"
+                className={classes.searchInput}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Search />
+                    </InputAdornment>
+                  ),
+                }}
+                onChange={handleSearch}
+              />
 
-            <Controls.Button
-              text="Add New"
-              variant="outlined"
-              startIcon={<AddIcon />}
-              className={classes.newButton}
-              onClick={() => {
-                console.log("in on click");
-                setOpenPopup(true);
-                setRecordForEdit(null);
-                console.log("after on click");
-              }}
-            />
-          </Toolbar>
-          <Table sx={{ maxWidth: 600 }} aria-label="a dense table">
-            <TableHead>
-              <TableRow>
-                <TableCell
-                  style={{ fontWeight: "bold", fontSize: "15px" }}
-                  align="center"
-                >
-                  Name
-                </TableCell>
-                <TableCell
-                  style={{ fontWeight: "bold", fontSize: "15px" }}
-                  align="center"
-                >
-                  Email ID
-                </TableCell>
-                <TableCell
-                  style={{ fontWeight: "bold", fontSize: "15px" }}
-                  align="center"
-                >
-                  Department
-                </TableCell>
-                <TableCell
-                  style={{ fontWeight: "bold", fontSize: "15px" }}
-                  align="center"
-                >
-                  Team
-                </TableCell>
-                <TableCell
-                  style={{ fontWeight: "bold", fontSize: "15px" }}
-                  align="center"
-                >
-                  Certifications
-                </TableCell>
-                <TableCell
-                  style={{ fontWeight: "bold", fontSize: "15px" }}
-                  align="center"
-                >
-                  Project
-                </TableCell>
-                <TableCell
-                  style={{ fontWeight: "bold", fontSize: "15px" }}
-                  align="center"
-                >
-                  Total Experience
-                </TableCell>
-                <TableCell
-                  style={{ fontWeight: "bold", fontSize: "15px" }}
-                  align="center"
-                >
-                  Ad Tech Experience
-                </TableCell>
-                <TableCell
-                  style={{ fontWeight: "bold", fontSize: "15px" }}
-                  align="center"
-                >
-                  Actions
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {currentUsers.map((user) => (
-                <TableRow
-                  key={user.e_id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {user.employee_name}
+              <Controls.Button
+                text="Add New"
+                variant="outlined"
+                startIcon={<AddIcon />}
+                className={classes.newButton}
+                onClick={() => {
+                  console.log("in on click");
+                  setOpenPopup(true);
+                  setRecordForEdit(null);
+                  console.log("after on click");
+                }}
+              />
+            </Toolbar>
+            <Table sx={{ maxWidth: 600 }} aria-label="a dense table">
+              <TableHead>
+                <TableRow>
+                  <TableCell
+                    style={{ fontWeight: "bold", fontSize: "15px" }}
+                    align="center"
+                  >
+                    Name
                   </TableCell>
-                  <TableCell style={{ textAlign: "center" }} align="center">
-                    {user.email}
+                  <TableCell
+                    style={{ fontWeight: "bold", fontSize: "15px" }}
+                    align="center"
+                  >
+                    Email ID
                   </TableCell>
-                  <TableCell align="center">{user.department}</TableCell>
-                  <TableCell align="center">{user.team}</TableCell>
-                  <TableCell align="center">{user.certifications}</TableCell>
-                  <TableCell align="center">{user.projects}</TableCell>
-                  <TableCell align="center">{user.total_exp}</TableCell>
-                  <TableCell align="center">{user.ad_tech_exp}</TableCell>
-                  <TableCell align="center">
-                    <div>
-                      <Controls.ActionButton
-                        color="primary"
-                        variant="outlined"
-                        onClick={() => {
-                          openInPopup(user);
-                        }}
-                      >
-                        <ModeEditOutlineTwoToneIcon fontSize="small" />
-                      </Controls.ActionButton>
-
-                      <Controls.ActionButton
-                        color="secondary"
-                        variant="outlined"
-                        onClick={() => {
-                          setConfirmDialog({
-                            isOpen: true,
-                            title: "Are you sure you want to delete?",
-                            subTitle: "You can't undo this operation",
-                            onConfirm: () => {
-                              deleteUser(user.e_id);
-                            },
-                          });
-                        }}
-                      >
-                        <DeleteOutlineTwoToneIcon fontSize="small" />
-                      </Controls.ActionButton>
-                    </div>
+                  <TableCell
+                    style={{ fontWeight: "bold", fontSize: "15px" }}
+                    align="center"
+                  >
+                    Department
+                  </TableCell>
+                  <TableCell
+                    style={{ fontWeight: "bold", fontSize: "15px" }}
+                    align="center"
+                  >
+                    Team
+                  </TableCell>
+                  <TableCell
+                    style={{ fontWeight: "bold", fontSize: "15px" }}
+                    align="center"
+                  >
+                    Certifications
+                  </TableCell>
+                  <TableCell
+                    style={{ fontWeight: "bold", fontSize: "15px" }}
+                    align="center"
+                  >
+                    Project
+                  </TableCell>
+                  <TableCell
+                    style={{ fontWeight: "bold", fontSize: "15px" }}
+                    align="center"
+                  >
+                    Total Experience
+                  </TableCell>
+                  <TableCell
+                    style={{ fontWeight: "bold", fontSize: "15px" }}
+                    align="center"
+                  >
+                    Ad Tech Experience
+                  </TableCell>
+                  <TableCell
+                    style={{ fontWeight: "bold", fontSize: "15px" }}
+                    align="center"
+                  >
+                    Actions
                   </TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <div className="tableFooter">
-            <div className="footerLeft">
-              <h4>
-                Showing Page {currentPage} of {totalPages}
-              </h4>
-            </div>
-            <div className="footerRight">
-              <FormGroup
-                row
-                className="formGroupStyle"
-                style={{ padding: "14px", float: "right" }}
-              >
-                <FormGroup row>
-                  <Button
-                    className="buttonStyle"
-                    variant="outlined"
-                    disabled={currentPage === 1 ? true : false}
-                    onClick={firstPage}
+              </TableHead>
+              <TableBody>
+                {currentUsers.map((user) => (
+                  <TableRow
+                    key={user.e_id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <FirstPageIcon /> First
-                  </Button>
-                  <Button
-                    className="buttonStyle"
-                    variant="outlined"
-                    disabled={currentPage === 1 ? true : false}
-                    onClick={prevPage}
-                  >
-                    <NavigateBeforeIcon />
-                    Previous
-                  </Button>
+                    <TableCell component="th" scope="row">
+                      {user.employee_name}
+                    </TableCell>
+                    <TableCell style={{ textAlign: "center" }} align="center">
+                      {user.email}
+                    </TableCell>
+                    <TableCell align="center">{user.department}</TableCell>
+                    <TableCell align="center">{user.team}</TableCell>
+                    <TableCell align="center">{user.certifications}</TableCell>
+                    <TableCell align="center">{user.projects}</TableCell>
+                    <TableCell align="center">{user.total_exp}</TableCell>
+                    <TableCell align="center">{user.ad_tech_exp}</TableCell>
+                    <TableCell align="center">
+                      <div>
+                        <Controls.ActionButton
+                          color="primary"
+                          variant="outlined"
+                          onClick={() => {
+                            openInPopup(user);
+                          }}
+                        >
+                          <ModeEditOutlineTwoToneIcon fontSize="small" />
+                        </Controls.ActionButton>
+
+                        <Controls.ActionButton
+                          color="secondary"
+                          variant="outlined"
+                          onClick={() => {
+                            setConfirmDialog({
+                              isOpen: true,
+                              title: "Are you sure you want to delete?",
+                              subTitle: "You can't undo this operation",
+                              onConfirm: () => {
+                                deleteUser(user.e_id);
+                              },
+                            });
+                          }}
+                        >
+                          <DeleteOutlineTwoToneIcon fontSize="small" />
+                        </Controls.ActionButton>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <div className="tableFooter">
+              <div className="footerLeft">
+                <h4>
+                  Showing Page {currentPage} of {totalPages}
+                </h4>
+              </div>
+              <div className="footerRight">
+                <FormGroup
+                  row
+                  className="formGroupStyle"
+                  style={{ padding: "14px", float: "right" }}
+                >
+                  <FormGroup row>
+                    <Button
+                      className="buttonStyle"
+                      variant="outlined"
+                      disabled={currentPage === 1 ? true : false}
+                      onClick={firstPage}
+                    >
+                      <FirstPageIcon /> First
+                    </Button>
+                    <Button
+                      className="buttonStyle"
+                      variant="outlined"
+                      disabled={currentPage === 1 ? true : false}
+                      onClick={prevPage}
+                    >
+                      <NavigateBeforeIcon />
+                      Previous
+                    </Button>
+                  </FormGroup>
+                  <div>
+                    <TextField
+                      id="filled-basic"
+                      //label="Page"
+                      variant="outlined"
+                      className="pageField"
+                      name="currentPage"
+                      value={currentPage}
+                      onChange={changePage}
+                    />
+                  </div>
+                  <FormGroup row>
+                    <Button
+                      className="buttonStyle"
+                      variant="outlined"
+                      disabled={currentPage === totalPages ? true : false}
+                      onClick={nextPage}
+                    >
+                      Next <NavigateNextIcon />
+                    </Button>
+                    <Button
+                      className="buttonStyle"
+                      variant="outlined"
+                      disabled={currentPage === totalPages ? true : false}
+                      onClick={lastPage}
+                    >
+                      Last <LastPageIcon />
+                    </Button>
+                  </FormGroup>
                 </FormGroup>
-                <div>
-                  <TextField
-                    id="filled-basic"
-                    //label="Page"
-                    variant="outlined"
-                    className="pageField"
-                    name="currentPage"
-                    value={currentPage}
-                    onChange={changePage}
-                  />
-                </div>
-                <FormGroup row>
-                  <Button
-                    className="buttonStyle"
-                    variant="outlined"
-                    disabled={currentPage === totalPages ? true : false}
-                    onClick={nextPage}
-                  >
-                    Next <NavigateNextIcon />
-                  </Button>
-                  <Button
-                    className="buttonStyle"
-                    variant="outlined"
-                    disabled={currentPage === totalPages ? true : false}
-                    onClick={lastPage}
-                  >
-                    Last <LastPageIcon />
-                  </Button>
-                </FormGroup>
-              </FormGroup>
+              </div>
             </div>
-          </div>
-        </TableContainer>
-        <Paper
-          elevation={2}
-          square
-          style={{ textAlign: "center", height: "400px" }}
-        >
-          <h3 style={{ paddingTop: "180px" }}>Looker Representation</h3>
-        </Paper>
-        <Popup
-          title="Employee Form"
-          openPopup={openPopup}
-          setOpenPopup={setOpenPopup}
-        >
-          {/* <RegisterUser recordForEdit={recordForEdit} addOrEdit={addOrEdit} /> */}
-          <RegisterUser recordForEdit={recordForEdit} />
-        </Popup>
+          </TableContainer>
+          <Paper
+            elevation={2}
+            square
+            style={{ textAlign: "center", height: "700px" }}
+          >
+            <TableauEmp />
+            {/* <h3 style={{ paddingTop: "180px" }}>Looker Representation</h3> */}
+            {/* <div class='tableauPlaceholder' id='viz1637923496020' ><noscript><a href='#'><img alt='Sheet 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Em&#47;EmplyeeExp&#47;Sheet1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='EmplyeeExp&#47;Sheet1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Em&#47;EmplyeeExp&#47;Sheet1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-GB' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1637923496020');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script> */}
+          </Paper>
+          <Popup
+            title="Employee Form"
+            openPopup={openPopup}
+            setOpenPopup={setOpenPopup}
+          >
+            {/* <RegisterUser recordForEdit={recordForEdit} addOrEdit={addOrEdit} /> */}
+            <RegisterUser recordForEdit={recordForEdit} />
+          </Popup>
+        </div>
+
+        <Notification notify={notify} setNotify={setNotify} />
+        <ConfirmDialog
+          confirmDialog={confirmDialog}
+          setConfirmDialog={setConfirmDialog}
+        />
+
+        <CssBaseline />
       </div>
-
-      <Notification notify={notify} setNotify={setNotify} />
-      <ConfirmDialog
-        confirmDialog={confirmDialog}
-        setConfirmDialog={setConfirmDialog}
-      />
-
-      <CssBaseline />
+      <Footer />
     </>
   );
-
-  return {
-    findAllUsers,
-  };
 }

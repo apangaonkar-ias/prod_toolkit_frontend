@@ -13,7 +13,7 @@ import MyProjects from "../MyProjectsPage/MyProjects";
 import MyTeam from "../MyTeamPage/MyTeam1";
 import TeamSkills from "../TeamSkillsPage/TeamSkills1";
 import Trends from "../TrendsPage/Trends";
-import Home from "./Home";
+// import Home from "./Home";
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import RegisterUser from "../RegisterPage/RegisterUser";
@@ -21,9 +21,9 @@ import RegisterUser from "../RegisterPage/RegisterUser";
 //Router - Everything enclosed under Router will be eligible for Routing
 //Route - Renders out the component based on the URL
 
-function App() {
+function Home() {
   return (
-    <Router>
+    // <Router>
       
       <div className="app">
         <Header />
@@ -36,13 +36,15 @@ function App() {
             <Sidebar />
           </div>
 
-          <Switch>
+          {/* <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/Projects" component={MyProjects} />
             <Route path="/Team" component={MyTeam} />
             <Route path="/Skills" component={TeamSkills} />
-            <Route path="/Trends" component={Trends} />
-            <Route path="/edit/:id" component={RegisterUser} />
+            <Route path="/Trends" component={Trends} /> */}
+            {/* <Route path="/edit/:id" component={RegisterUser} /> */}
+            {/* <Route path="/Register" component={RegisterUser} />
+//          <Route path="/Login" component={Login} /> */}
 
             <div className="widgetsss">
               <div className="widget_padding">
@@ -89,14 +91,14 @@ function App() {
                 </Link>
               </div>
             </div>
-          </Switch>
+          {/* </Switch> */}
         </div>
 
         {/* Footer */}
         <Footer />
       </div>
-    </Router>
+    // </Router>
   );
 }
 
-export default App;
+export default Home;

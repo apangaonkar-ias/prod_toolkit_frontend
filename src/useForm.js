@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core";
 export function useForm(initialFValues, validateOnChange = false, validate) {
   const [values, setValues] = useState(initialFValues);
   const [errors, setErrors] = useState({});
+  const [index, setIndex] = useState(2);
 
   const handleInputChange = (e) => {
     console.log("In handle input change");
@@ -36,6 +37,8 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
     setErrors,
     handleInputChange,
     resetForm,
+    index,
+    setIndex
   };
 }
 

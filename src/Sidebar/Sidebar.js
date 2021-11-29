@@ -1,11 +1,16 @@
 import { Avatar } from "@mui/material";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Sidebar.css";
 import EditIcon from "@mui/icons-material/Edit";
 import HeaderOption from "../Header/HeaderOption";
-
+import Controls from "../Controls/Controls";
+import Popup from "../Popup";
+import RegisterUser from "../RegisterPage/RegisterUser";
+import SkillRegisterPage from "../SkillRegisterPage/SkillRegisterPage";
 
 function Sidebar() {
+  const [openPopup, setOpenPopup] = useState(false);
+
   return (
     <div className="sidebar">
       <div className="sidebar__top">
@@ -50,11 +55,13 @@ function Sidebar() {
         </div>
       </div>
       <div className="sidebar__bottom">
-        {/* <div className="skills__top"> */}
-        <h3>My Skills</h3>
-
+        
+      <div>
+        <h3>My Skills  </h3>
+      </div>
         {/* <HeaderOption Icon={EditIcon} title="Edit" /> */}
         {/* </div> */}
+
         <div className="sidebar__skills">
           <p>ReactJS</p>
           <p className="sidebar__profile__value">Expert</p>
@@ -84,7 +91,28 @@ function Sidebar() {
           <p>Data Science</p>
           <p className="sidebar__profile__value">Intermediate</p>
         </div>
+        
+        <Controls.Button
+              text="Add Skill"
+              variant="outlined"
+              startIcon={<EditIcon/>}
+              className={{marginLeft:'50%'}}
+              onClick={() => {
+                console.log("in on click");
+                setOpenPopup(true);
+                
+                // setRecordForEdit(null)
+              }}
+            />
       </div>
+      <Popup
+          title="Employee Skill Form / Display All Skills First - give CRUD funtionality"
+          openPopup={openPopup}
+          setOpenPopup={setOpenPopup}
+        >
+          {/* <RegisterUser recordForEdit={recordForEdit} addOrEdit={addOrEdit} /> */}
+          <SkillRegisterPage />
+        </Popup>
     </div>
   );
 }
