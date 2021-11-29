@@ -6,7 +6,8 @@ import Header from "../Header/Header";
 import logo from "../images/logo.png";
 import { connect } from "react-redux";
 import { authenticateUser } from "../Services/index";
-
+import prod from "./prod.png";
+import loginImage from "./prod.png";
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -72,7 +73,13 @@ class Login extends React.Component {
                       alignItems: "center",
                     }}
                   >
-                    <h3>Productivity Toolkit</h3>
+                    <prod />
+                    <img
+                      src={loginImage}
+                      alt="Image"
+                      style={{ width: "250px", height: "55px" }}
+                    ></img>
+                    {/* <h3>Productivity Toolkit</h3> */}
                   </div>
                 </Grid>
                 <Grid item>

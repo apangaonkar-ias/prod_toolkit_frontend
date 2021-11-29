@@ -22,8 +22,6 @@ class Header extends Component {
     const guestLinks = (
       <>
         <div className="header__right">
-          <div class="vl"></div>
-
           <Link to="/Login" style={{ textDecoration: "none" }}>
             <HeaderOption Icon={LoginIcon} title="Login" />
           </Link>
@@ -62,12 +60,6 @@ class Header extends Component {
           >
             <HeaderOption Icon={LogoutIcon} title="Logout" />
           </Link>
-
-          {/* <HeaderOption
-          avatar="https://www.kindpng.com/picc/m/136-1369892_avatar-people-person-business-user-man-character-avatar.png"
-          title="me"
-        />
-        <HeaderOption Icon={LogoutIcon} title="Logout" /> */}
         </div>
       </>
     );
