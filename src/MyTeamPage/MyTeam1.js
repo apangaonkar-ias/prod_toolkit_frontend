@@ -66,12 +66,14 @@ export default function MyTeam1() {
   const [usersPerPage, setUsersPerPage] = useState(5);
   const classes = useStyles();
   const [recordForEdit, setRecordForEdit] = useState(null);
+
   const [filterFn, setFilterFn] = useState({
     fn: (users) => {
       return users;
     },
   });
   const [openPopup, setOpenPopup] = useState(false);
+
   const lastIndex = currentPage * usersPerPage;
   const firstIndex = lastIndex - usersPerPage;
 
@@ -437,8 +439,12 @@ export default function MyTeam1() {
             openPopup={openPopup}
             setOpenPopup={setOpenPopup}
           >
-            {/* <RegisterUser recordForEdit={recordForEdit} addOrEdit={addOrEdit} /> */}
-            <RegisterUser recordForEdit={recordForEdit} />
+            <RegisterUser
+              recordForEdit={recordForEdit}
+              openPopup={openPopup}
+              setOpenPopup={setOpenPopup}
+              findAllUsers={findAllUsers}
+            />
           </Popup>
         </div>
 

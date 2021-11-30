@@ -15,6 +15,7 @@ import Header from "../Header/Header";
 
 import Notification from "../Notification";
 import Trial from "../Trial";
+// import { MyTeam1 } from "../MyTeamPage/MyTeam1";
 
 const initialFValues = {
   employee_name: "",
@@ -33,7 +34,15 @@ const initialFValues = {
 };
 
 export default function RegisterUser(props) {
-  const { recordForEdit } = props;
+  const {
+    recordForEdit,
+    users,
+    setUsers,
+    openPopup,
+    setOpenPopup,
+    findAllUsers,
+  } = props;
+
   const [e_id, set_e_id] = useState("");
   const [employee_name, set_employee_name] = useState("");
   const [team, setTeam] = useState("");
@@ -48,13 +57,14 @@ export default function RegisterUser(props) {
   const [total_exp, setTotal_exp] = useState("");
   const [ad_tech_exp, setAd_tech_exp] = useState("");
   const [slack_time, setSlack_time] = useState("");
+  const [password, setPassword] = useState("");
   const [flag, setFlag] = useState(-1);
+
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
     type: "",
   });
-  const [openPopup, setOpenPopup] = useState(false);
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
@@ -105,15 +115,17 @@ export default function RegisterUser(props) {
     useForm(initialFValues, true, validate);
 
   // const findAllUsers = MyTeam1();
-  const { index, setIndex } = Trial();
+  // const { index, setIndex } = Trial();
+
+  // const handlingEdit = (e) => {
+  //   e.preventDefault();
+  //   handleEdit();
+  //   console.log("Handlingnggg edit");
+  // };
 
   const handleEdit = (e) => {
     e.preventDefault();
     console.log("Handling Edit funtionality");
-    // console.log(values);
-    // console.log(index);
-    // setIndex(3);
-    // console.log(index);
 
     var postData = new FormData();
 
@@ -137,12 +149,12 @@ export default function RegisterUser(props) {
     }
 
     console.log("Put ke andar ho sir");
+
     var config = {
       method: "put",
       url: "http://localhost:8080/toolkit/updateEmp/" + values.e_id,
       data: postData,
       headers: {
-        // 'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJLZXZpblBldGVyIiwicm9sZXMiOlsiUk9MRV9tYW5hZ2VyIl0sImlhdCI6MTYzNTIzMDg3NCwiZXhwIjoxNjM1MjMxMDU0fQ.f87PVTkPUgz2vL16xE7Ak0DyoAQeR1jVuzRg60F-W5dFccepNZL9Xt9en_Gjt8EC5mV8LzEFocMQaHBJjY2Lng',
         "Content-Type": "multipart/form-data",
       },
     };
@@ -152,18 +164,20 @@ export default function RegisterUser(props) {
 
     axios(config);
 
-    setOpenPopup(false);
-
     console.log("Put ke andar ho sir");
+    console.log(openPopup);
 
     setNotify({
       isOpen: true,
       message: "Submitted Succesfully",
       type: "success",
     });
-    // setOpenPopup(false);
-    window.location.reload();
+    setOpenPopup(false);
   };
+
+  useEffect(() => {
+    findAllUsers();
+  }, [openPopup]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -192,20 +206,25 @@ export default function RegisterUser(props) {
         console.log(pair[0] + " " + pair[1]);
       }
 
-      axios({
+      var config = {
         method: "post",
         url: "http://localhost:8080/toolkit/addEmp",
         data: postData,
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-        .then((response) => response.data)
-        .then((data) => {
-          console.log(data);
-          setValues(initialFValues);
-          setOpenPopup(false);
-        });
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
+      axios(config);
+
+      setValues(initialFValues);
+      setOpenPopup(false);
+      setNotify({
+        isOpen: true,
+        message: "Submitted Succesfully",
+        type: "success",
+      });
     }
-    // findAllUsers();
   };
 
   useEffect(() => {
@@ -351,6 +370,16 @@ export default function RegisterUser(props) {
                 onChange={handleInputChange}
                 error={errors.hireDate}
               />
+              {recordForEdit === null && (
+                <Controls.Input
+                  label="Set Password"
+                  name="password"
+                  // value={recordForEdit === null ? password : values.password}
+                  value={values.password}
+                  // onChange={(e) => setProjects(e.target.value)}
+                  onChange={handleInputChange}
+                />
+              )}
               <div>
                 <Controls.Button
                   type="submit"
@@ -366,13 +395,15 @@ export default function RegisterUser(props) {
             </Grid>
           </Grid>
         </Form>
-        <Popup
+
+        {/* <Popup
           title="Employee Form"
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
         >
           <RegisterUser recordForEdit={recordForEdit} />
-        </Popup>
+        </Popup> */}
+
         <Notification notify={notify} setNotify={setNotify} />
       </div>
     </>
