@@ -2,11 +2,10 @@ import React, { useRef, useEffect } from "react";
 
 const { tableau } = window;
 
-export default function TableauEmp() {
+export default function TableauDeltaSkills() {
   const ref = useRef(null);
-  // const url = "https://public.tableau.com/views/EmplyeeExp/Sheet1";
   const url =
-    "  https://public.tableau.com/views/EmplyeeAdTechExperienceTeamSpecific/Dashboard1";
+    "https://public.tableau.com/views/EmplyeeSkillDeltaTeamSpecific/Dashboard2";
 
   const options = {
     device: "desktop",

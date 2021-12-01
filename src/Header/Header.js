@@ -26,7 +26,7 @@ class Header extends Component {
             <HeaderOption Icon={LoginIcon} title="Login" />
           </Link>
 
-          <Link to="/Register" style={{ textDecoration: "none" }}>
+          <Link to="/Login" style={{ textDecoration: "none" }}>
             <HeaderOption Icon={PersonAddIcon} title="Register" />
           </Link>
         </div>
@@ -42,8 +42,8 @@ class Header extends Component {
           <Link to="/Team" style={{ textDecoration: "none" }}>
             <HeaderOption Icon={GroupIcon} title="My Team" />
           </Link>
-          <Link to="/Projects" style={{ textDecoration: "none" }}>
-            <HeaderOption Icon={ListAltIcon} title="My Projects" />
+          <Link to="/Roadmap" style={{ textDecoration: "none" }}>
+            <HeaderOption Icon={ListAltIcon} title="Skill Roadmap" />
           </Link>
           <Link to="/Skills" style={{ textDecoration: "none" }}>
             <HeaderOption Icon={SchoolIcon} title="Team Skills" />

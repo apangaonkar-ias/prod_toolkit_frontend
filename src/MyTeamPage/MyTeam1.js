@@ -39,6 +39,8 @@ import Notification from "../Notification";
 import ConfirmDialog from "../ConfirmDialog";
 import Footer from "../Footer/Footer";
 
+import { withRouter } from "react-router";
+
 // import { getAllEmployees } from "../Services/employeeService";
 import * as employeeService from "../Services/employeeService";
 import Sidebar from "../Sidebar/Sidebar";
@@ -428,7 +430,7 @@ export default function MyTeam1() {
           <Paper
             elevation={2}
             square
-            style={{ textAlign: "center", height: "700px" }}
+            style={{ textAlign: "center", height: "850px" }}
           >
             <TableauEmp />
             {/* <h3 style={{ paddingTop: "180px" }}>Looker Representation</h3> */}

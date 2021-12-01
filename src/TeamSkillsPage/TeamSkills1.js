@@ -30,6 +30,13 @@ import Sidebar from "../Sidebar/Sidebar";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import TableauSkills from "../TableauEmbed/TableauSkills";
+import TableauDeltaSkills from "../TableauEmbed/TableauDeltaSkills";
+import SkillRegisterPage from "../SkillRegisterPage/SkillRegisterPage";
+import Controls from "../Controls/Controls";
+import Popup from "../Popup";
+import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
+import AddIcon from "@mui/icons-material/Add";
+import Search from "@mui/icons-material/Search";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -73,6 +80,11 @@ export default function TeamSkills1() {
         setSkills(data);
         console.log(data);
       });
+  };
+
+  const openInPopup = (user) => {
+    setRecordForEdit(user);
+    setOpenPopup(true);
   };
 
   const currentUsers = skills.slice(firstIndex, lastIndex);
@@ -139,6 +151,33 @@ export default function TeamSkills1() {
             subtitle="Check skills your team possesses"
           />
           <TableContainer component={Paper}>
+            <Toolbar>
+              <Controls.Input
+                label="Search Employees"
+                className={classes.searchInput}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Search />
+                    </InputAdornment>
+                  ),
+                }}
+                onChange={handleSearch}
+              />
+
+              <Controls.Button
+                text="Add New"
+                variant="outlined"
+                startIcon={<AddIcon />}
+                className={classes.newButton}
+                onClick={() => {
+                  console.log("in on click");
+                  setOpenPopup(true);
+                  setRecordForEdit(null);
+                  console.log("after on click");
+                }}
+              />
+            </Toolbar>
             <Table sx={{ maxWidth: 500 }} aria-label="a dense table">
               <TableHead>
                 <TableRow>
@@ -185,12 +224,6 @@ export default function TeamSkills1() {
                   >
                     Additional Skills (A.S.)
                   </TableCell>
-                  {/* <TableCell
-                  style={{ fontWeight: "bold", fontSize: "15px" }}
-                  align="center"
-                >
-                  Aspired Skills
-                </TableCell> */}
 
                   <TableCell
                     style={{ fontWeight: "bold", fontSize: "15px" }}
@@ -204,6 +237,12 @@ export default function TeamSkills1() {
                     align="center"
                   >
                     A.S. Proficiency Level
+                  </TableCell>
+                  <TableCell
+                    style={{ fontWeight: "bold", fontSize: "15px" }}
+                    align="center"
+                  >
+                    Actions
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -233,6 +272,19 @@ export default function TeamSkills1() {
 
                     <TableCell align="center">
                       {skill.a_proficiency_level}
+                    </TableCell>
+                    <TableCell align="center">
+                      <div>
+                        <Controls.ActionButton
+                          color="primary"
+                          variant="outlined"
+                          onClick={() => {
+                            openInPopup(skill);
+                          }}
+                        >
+                          <ModeEditOutlineTwoToneIcon fontSize="small" />
+                        </Controls.ActionButton>
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -308,11 +360,30 @@ export default function TeamSkills1() {
             square
             style={{ textAlign: "center", height: "850px" }}
           >
-            {/* <h3 style={{ paddingTop: "180px" }}>Looker Representation</h3> */}
             <TableauSkills />
+          </Paper>
+          <Paper
+            elevation={2}
+            square
+            style={{ textAlign: "center", height: "850px" }}
+          >
+            <TableauDeltaSkills />
           </Paper>
         </div>
       </div>
+      <Popup
+        title="Skills Form"
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
+        <SkillRegisterPage
+          recordForEdit={recordForEdit}
+          openPopup={openPopup}
+          setOpenPopup={setOpenPopup}
+          findAllUsers_Skills={findAllUsers_Skills}
+        />
+      </Popup>
+
       <Footer />
     </>
   );

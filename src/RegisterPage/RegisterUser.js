@@ -6,16 +6,8 @@ import Controls from "../Controls/Controls";
 import Select from "../Controls/Select";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
-// import * as employeeService from "../Services/employeeService";
-// import * as MyTeam from "../MyTeamPage/MyTeam1";
-import MyTeam1 from "../MyTeamPage/MyTeam1";
-// import {findAllUsers} from "../MyTeamPage/MyTeam1";
-import Popup from "../Popup";
-import Header from "../Header/Header";
 
 import Notification from "../Notification";
-import Trial from "../Trial";
-// import { MyTeam1 } from "../MyTeamPage/MyTeam1";
 
 const initialFValues = {
   employee_name: "",
@@ -34,30 +26,10 @@ const initialFValues = {
 };
 
 export default function RegisterUser(props) {
-  const {
-    recordForEdit,
-    users,
-    setUsers,
-    openPopup,
-    setOpenPopup,
-    findAllUsers,
-  } = props;
+  const { recordForEdit, openPopup, setOpenPopup, findAllUsers } = props;
 
-  const [e_id, set_e_id] = useState("");
   const [employee_name, set_employee_name] = useState("");
-  const [team, setTeam] = useState("");
-  const [designation, setDesignation] = useState("");
-  const [role, setRole] = useState("");
-  const [email, setEmail] = useState("");
-  const [org_level, setOrg_level] = useState("");
-  const [certifications, setCertifications] = useState("");
-  const [projects, setProjects] = useState("");
-  const [department, setdepartment] = useState("");
-  const [hireDate, sethireDate] = useState("");
-  const [total_exp, setTotal_exp] = useState("");
-  const [ad_tech_exp, setAd_tech_exp] = useState("");
-  const [slack_time, setSlack_time] = useState("");
-  const [password, setPassword] = useState("");
+
   const [flag, setFlag] = useState(-1);
 
   const [notify, setNotify] = useState({
@@ -114,15 +86,6 @@ export default function RegisterUser(props) {
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
     useForm(initialFValues, true, validate);
 
-  // const findAllUsers = MyTeam1();
-  // const { index, setIndex } = Trial();
-
-  // const handlingEdit = (e) => {
-  //   e.preventDefault();
-  //   handleEdit();
-  //   console.log("Handlingnggg edit");
-  // };
-
   const handleEdit = (e) => {
     e.preventDefault();
     console.log("Handling Edit funtionality");
@@ -160,11 +123,9 @@ export default function RegisterUser(props) {
     };
 
     console.log(config.data);
-    console.log("Put ke andar ho sir");
 
     axios(config);
 
-    console.log("Put ke andar ho sir");
     console.log(openPopup);
 
     setNotify({
@@ -356,7 +317,7 @@ export default function RegisterUser(props) {
               <Controls.Input
                 label="Projects"
                 name="projects"
-                value={recordForEdit === null ? projects : values.projects}
+                //value={recordForEdit === null ? projects : values.projects}
                 value={values.projects}
                 // onChange={(e) => setProjects(e.target.value)}
                 onChange={handleInputChange}
@@ -370,7 +331,7 @@ export default function RegisterUser(props) {
                 onChange={handleInputChange}
                 error={errors.hireDate}
               />
-              {recordForEdit === null && (
+              {/* {recordForEdit === null && (
                 <Controls.Input
                   label="Set Password"
                   name="password"
@@ -379,7 +340,7 @@ export default function RegisterUser(props) {
                   // onChange={(e) => setProjects(e.target.value)}
                   onChange={handleInputChange}
                 />
-              )}
+              )} */}
               <div>
                 <Controls.Button
                   type="submit"

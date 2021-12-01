@@ -7,6 +7,7 @@ import Controls from "../Controls/Controls";
 import Popup from "../Popup";
 import RegisterUser from "../RegisterPage/RegisterUser";
 import SkillRegisterPage from "../SkillRegisterPage/SkillRegisterPage";
+import SkillRegister1 from "../SkillRegisterPage/SkillRegister1";
 
 function Sidebar() {
   const [openPopup, setOpenPopup] = useState(false);
@@ -55,10 +56,9 @@ function Sidebar() {
         </div>
       </div>
       <div className="sidebar__bottom">
-        
-      <div>
-        <h3>My Skills  </h3>
-      </div>
+        <div style={{ marginLeft: "95px" }}>
+          <h3>My Skills </h3>
+        </div>
         {/* <HeaderOption Icon={EditIcon} title="Edit" /> */}
         {/* </div> */}
 
@@ -91,28 +91,28 @@ function Sidebar() {
           <p>Data Science</p>
           <p className="sidebar__profile__value">Intermediate</p>
         </div>
-        
+
         <Controls.Button
-              text="Add Skill"
-              variant="outlined"
-              startIcon={<EditIcon/>}
-              className={{marginLeft:'50%'}}
-              onClick={() => {
-                console.log("in on click");
-                setOpenPopup(true);
-                
-                // setRecordForEdit(null)
-              }}
-            />
+          text="Manage Your Skills"
+          variant="outlined"
+          startIcon={<EditIcon />}
+          style={{ marginLeft: "12%", marginTop: "15px" }}
+          onClick={() => {
+            console.log("in on click");
+            setOpenPopup(true);
+
+            // setRecordForEdit(null)
+          }}
+        />
       </div>
       <Popup
-          title="Employee Skill Form / Display All Skills First - give CRUD funtionality"
-          openPopup={openPopup}
-          setOpenPopup={setOpenPopup}
-        >
-          {/* <RegisterUser recordForEdit={recordForEdit} addOrEdit={addOrEdit} /> */}
-          <SkillRegisterPage />
-        </Popup>
+        title="Manage Your Skills"
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
+        {/* <RegisterUser recordForEdit={recordForEdit} addOrEdit={addOrEdit} /> */}
+        <SkillRegister1 />
+      </Popup>
     </div>
   );
 }

@@ -95,10 +95,9 @@ class Login extends React.Component {
                           fullWidth
                           name="email"
                           variant="outlined"
-                          //   autoComplete="off"
+                          autoComplete="off"
                           value={email}
                           onChange={this.credentialChange}
-                          required
                           autoFocus
                         />
                       </Grid>
@@ -116,7 +115,6 @@ class Login extends React.Component {
                           variant="outlined"
                           value={password}
                           onChange={this.credentialChange}
-                          required
                         />
                       </Grid>
 
