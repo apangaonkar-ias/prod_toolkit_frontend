@@ -226,7 +226,7 @@ export default function MyTeam1() {
           <PageHeader title="Team Page" subtitle="Make your team now!" />
           <TableContainer component={Paper}>
             <Toolbar>
-              <Controls.Input
+              {/* <Controls.Input
                 label="Search Employees"
                 className={classes.searchInput}
                 InputProps={{
@@ -237,7 +237,7 @@ export default function MyTeam1() {
                   ),
                 }}
                 onChange={handleSearch}
-              />
+              /> */}
 
               <Controls.Button
                 text="Add New"

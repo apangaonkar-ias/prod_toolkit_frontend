@@ -151,7 +151,7 @@ export default function TeamSkills1() {
             subtitle="Check skills your team possesses"
           />
           <TableContainer component={Paper}>
-            <Toolbar>
+            {/* <Toolbar>
               <Controls.Input
                 label="Search Employees"
                 className={classes.searchInput}
@@ -177,7 +177,7 @@ export default function TeamSkills1() {
                   console.log("after on click");
                 }}
               />
-            </Toolbar>
+            </Toolbar> */}
             <Table sx={{ maxWidth: 500 }} aria-label="a dense table">
               <TableHead>
                 <TableRow>
@@ -358,7 +358,7 @@ export default function TeamSkills1() {
           <Paper
             elevation={2}
             square
-            style={{ textAlign: "center", height: "850px" }}
+            style={{ textAlign: "center", height: "630px" }}
           >
             <TableauSkills />
           </Paper>

@@ -1,5 +1,9 @@
-.widget_padding {
-  margin-left: 50px;
-  margin-top: 10px;
-  /* margin: 20px; */
+.grid-container {
+  max-width: 1250px;
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+.grid-item {
+  padding: 20px;
+  /* border: 1px solid rgba(0, 0, 0, 0.8); */
 }

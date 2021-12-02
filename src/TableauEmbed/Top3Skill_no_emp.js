@@ -2,12 +2,12 @@ import React, { useRef, useEffect } from "react";
 
 const { tableau } = window;
 
-export default function TableauSkills() {
+export default function Top3Skill_no_emp() {
   const ref = useRef(null);
+  // const url = "https://public.tableau.com/views/EmplyeeExp/Sheet1";
   const url =
-    // "https://public.tableau.com/views/ManagerDetails_16379257654810/ManagerDetails";
-    "https://public.tableau.com/views/PrimarySkillsPerTeam_16384364630200/Sheet8";
-
+    // "  https://public.tableau.com/views/EmplyeeAdTechExperienceTeamSpecific/Dashboard1";
+    "https://public.tableau.com/views/Top3SkillsNo_of_Emp/top3emp";
   const options = {
     device: "desktop",
   };
