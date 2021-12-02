@@ -7,7 +7,7 @@ export default function Top3Skill_mgr() {
   // const url = "https://public.tableau.com/views/EmplyeeExp/Sheet1";
   const url =
     // "  https://public.tableau.com/views/EmplyeeAdTechExperienceTeamSpecific/Dashboard1";
-    "https://public.tableau.com/views/Top3SkillsIAS/top3skillsquality";
+    "https://public.tableau.com/views/Top3SkillsIAS_16384520789120/top3skillsquality";
   const options = {
     device: "desktop",
   };
