@@ -136,10 +136,6 @@ export default function RegisterUser(props) {
     setOpenPopup(false);
   };
 
-  useEffect(() => {
-    findAllUsers();
-  }, [openPopup]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("In handle Submit");
@@ -187,6 +183,10 @@ export default function RegisterUser(props) {
       });
     }
   };
+
+  useEffect(() => {
+    findAllUsers();
+  }, [openPopup]);
 
   useEffect(() => {
     console.log("Inside Useeffect");
