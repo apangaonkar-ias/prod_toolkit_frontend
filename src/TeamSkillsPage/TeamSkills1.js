@@ -269,7 +269,7 @@ export default function TeamSkills1() {
                         ? "INTERMEDIATE"
                         : skill.p_self_rating > 7
                         ? "EXPERT"
-                        : "SME"}
+                        : ""}
                     </TableCell>
                     <TableCell align="center">{skill.p_rating_delta}</TableCell>
                     <TableCell align="center">{skill.a_skills}</TableCell>
@@ -283,7 +283,7 @@ export default function TeamSkills1() {
                         ? "INTERMEDIATE"
                         : skill.a_self_rating > 7
                         ? "EXPERT"
-                        : "SME"}
+                        : ""}
                       {/* {skill.a_proficiency_level} */}
                     </TableCell>
                     <TableCell align="center">
@@ -307,7 +307,7 @@ export default function TeamSkills1() {
             <div className="tableFooter">
               <div className="footerLeft">
                 <h4>
-                  Showing Page {currentPage} of {totalPages}
+                  Showing Page {currentPage} of {Math.ceil(totalPages)}
                 </h4>
               </div>
               <div className="footerRight">
