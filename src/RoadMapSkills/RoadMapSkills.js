@@ -24,11 +24,14 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
+import { arrayIncludes } from "@material-ui/pickers/_helpers/utils";
+import { border } from "@mui/system";
 
 const initialFValues = {
   required_skill: "",
-  min_fskill_rating: "",
+  min_req_rating: "",
   complexity: "",
+  no_of_emp: "",
 };
 
 const handleSubmit = () => {};
@@ -36,6 +39,21 @@ const handleSubmit = () => {};
 const handleEdit = () => {};
 
 function RoadMapSkills() {
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "",
+  });
+
+  // const [users, setUsers] = useState([]);
+  // const [userArray, setUserArray] = useState([]);
+
+  const [response, setResponse] = useState([]);
+
+  const [userArray, setUserArray] = useState([]);
+  let users = [];
+  // let userArray = [];
+
   const [flag, setFlag] = useState(-1);
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
@@ -44,8 +62,8 @@ function RoadMapSkills() {
         ? ""
         : "This field is required.";
 
-    if ("min_fskill_rating" in fieldValues)
-      temp.min_fskill_rating = fieldValues.min_fskill_rating
+    if ("min_req_rating" in fieldValues)
+      temp.min_req_rating = fieldValues.min_req_rating
         ? ""
         : "This field is required.";
 
@@ -62,9 +80,96 @@ function RoadMapSkills() {
   const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
     useForm(initialFValues, true, validate);
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const handleEdit = () => {};
+    console.log("In handle Submit");
+    if (validate()) {
+      var postData = new FormData();
+
+      postData.append("required_skill", values.required_skill);
+      postData.append("min_req_rating", values.min_req_rating);
+      postData.append("complexity", values.complexity);
+
+      console.log("Inside Add");
+      console.log(postData);
+
+      for (var pair of postData.entries()) {
+        console.log(pair[0] + " " + pair[1]);
+      }
+
+      var config = {
+        method: "post",
+        url: "http://localhost:8080/toolkit/validateSkillRoadmap",
+        data: postData,
+        headers: { "Content-Type": "multipart/form-data" },
+      };
+
+      axios(config)
+        .then((response) => response.data)
+        .then((data) => {
+          console.log(data);
+          doSomething(data);
+
+          // setUsers(Object.values(data));
+          // // let userArray = [];
+          // console.log(users);
+          // console.log(userArray);
+          // setUsers(userArray);
+          // console.log(users);
+        });
+
+      // setUsers(Object.values(response));
+
+      // for (let i = 0; i < users.length; i++) {
+      //   var user = users[i].split(",");
+      //   userArray.push({ key: i, value: user });
+      //   console.log(user);
+      // }
+
+      // console.log(userArray);
+      // setUserArray(userArray);
+
+      // setValues(initialFValues);
+
+      setNotify({
+        isOpen: true,
+        message: "Searching..",
+        type: "warning",
+      });
+    }
+  };
+
+  const doSomething = (data) => {
+    console.log("In here");
+    console.log(data);
+    users = Object.values(data);
+    // setUsers(Object.values(data));
+    // let userArray = [];
+    console.log(users);
+    for (let i = 0; i < users.length; i++) {
+      var user = users[i].split(",");
+      userArray.push({ key: i, value: user });
+      console.log(user);
+    }
+
+    console.log(userArray);
+
+    // console.log(userArray.value[1]);
+    setUserArray(userArray);
+  };
+
+  // useEffect(() => {
+  //   // console.log("IN useEffect");
+  // }, [userArray, users]);
+
+  const handleresetForm = (e) => {
+    e.preventDefault();
+    // setUserArray([]);
+    users = [];
+    setUserArray([]);
+    // setUsers([]);
+  };
 
   return (
     <>
@@ -85,31 +190,32 @@ function RoadMapSkills() {
                   <Controls.Input
                     name="required_skill"
                     label="Future Skill"
-                    // value= {recordForEdit === null ? employee_name : values.employee_name}
                     value={values.required_skill}
-                    // onChange={(e) => set_employee_name(e.target.value)}
                     onChange={handleInputChange}
                     error={errors.required_skill}
                   />
                   <Controls.Input
                     label="Minimum Skill Rating Required"
-                    name="min_fskill_rating"
-                    // value= {recordForEdit=== null ? email : values.email}
-                    value={values.min_fskill_rating}
-                    // onChange={(e) => setEmail(e.target.value)}
+                    name="min_req_rating"
+                    value={values.min_req_rating}
                     onChange={handleInputChange}
-                    error={errors.min_fskill_rating}
+                    error={errors.min_req_rating}
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <Controls.Input
                     label="Complexity (Minimum hours/week)"
                     name="complexity"
-                    // value= {recordForEdit=== null ? designation : values.designation}
                     value={values.complexity}
-                    // onChange={(e) => setDesignation(e.target.value)}
                     onChange={handleInputChange}
                     error={errors.complexity}
+                  />{" "}
+                  <Controls.Input
+                    label="Number of Employees required"
+                    name="no_of_emp"
+                    value={values.no_of_emp}
+                    onChange={handleInputChange}
+                    error={errors.no_of_emp}
                   />{" "}
                   <div>
                     <Controls.Button
@@ -120,7 +226,7 @@ function RoadMapSkills() {
                     <Controls.Button
                       text="Reset"
                       color="default"
-                      onClick={resetForm}
+                      onClick={handleresetForm}
                     />
                   </div>
                 </Grid>
@@ -128,6 +234,11 @@ function RoadMapSkills() {
             </Form>
           </TableContainer>
           <TableContainer component={Paper}>
+            <div style={{ textAlign: "center" }}>
+              {userArray.length} employees meeting your requirement <br />
+              Expected Employees:{values.no_of_emp}
+            </div>
+
             <Table aria-label="a dense table">
               <TableHead>
                 <TableRow>
@@ -141,19 +252,19 @@ function RoadMapSkills() {
                     style={{ fontWeight: "bold", fontSize: "15px" }}
                     align="center"
                   >
-                    Skill
+                    Primary Skill
                   </TableCell>
                   <TableCell
                     style={{ fontWeight: "bold", fontSize: "15px" }}
                     align="center"
                   >
-                    Team
+                    Primary Skill Rating
                   </TableCell>
                   <TableCell
                     style={{ fontWeight: "bold", fontSize: "15px" }}
                     align="center"
                   >
-                    Skill Rating
+                    Additional Skill
                   </TableCell>
                   <TableCell
                     style={{ fontWeight: "bold", fontSize: "15px" }}
@@ -176,49 +287,51 @@ function RoadMapSkills() {
                   </TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
-                {/* {currentUsers.map((user) => ( */}
-                <TableRow
-                  // key={user.e_id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row" align="center">
-                    {/* {user.employee_name} */}Aditya
-                  </TableCell>
-                  <TableCell style={{ textAlign: "center" }} align="center">
-                    {/* {user.email} */}REACT
-                  </TableCell>
-                  <TableCell align="center">
-                    {/* {user.department} */} PURE
-                  </TableCell>
-                  <TableCell align="center">
-                    {/* {user.department} */}8
-                  </TableCell>
-                  <TableCell align="center">
-                    {/* {user.department} */}10
-                  </TableCell>
-                  <TableCell align="center">
-                    {/* {user.department} */}4
-                  </TableCell>
 
-                  <TableCell align="center">
-                    <div>
-                      <Controls.Button
-                        type="submit"
-                        text="Refer to L&D"
-                        onClick={handleSubmit}
-                        variant="outlined"
-                      />
-                    </div>
-                  </TableCell>
-                </TableRow>
-                {/* ))} */}
+              <TableBody>
+                {userArray.map((user) => (
+                  <TableRow
+                    key={user.key}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row" align="center">
+                      {values.no}
+                      {user.value[1]}
+                    </TableCell>
+
+                    <TableCell style={{ textAlign: "center" }} align="center">
+                      {user.value[3]}
+                    </TableCell>
+                    <TableCell align="center">{user.value[6]}</TableCell>
+                    <TableCell align="center">{user.value[4]}</TableCell>
+                    <TableCell align="center">
+                      {/* {user.department} */}
+                      {user.value[5]}
+                    </TableCell>
+                    <TableCell align="center">
+                      {/* {user.department} */}
+                      {user.value[2]}
+                    </TableCell>
+
+                    <TableCell align="center">
+                      <div>
+                        <Controls.Button
+                          type="submit"
+                          text="Refer to L&D"
+                          onClick={handleSubmit}
+                          variant="outlined"
+                        />
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>
         </div>
       </div>
       <Footer />
+      <Notification notify={notify} setNotify={setNotify} />
     </>
   );
 }

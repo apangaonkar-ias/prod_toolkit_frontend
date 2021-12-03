@@ -263,7 +263,13 @@ export default function TeamSkills1() {
                       {skill.p_manager_rating}
                     </TableCell>
                     <TableCell align="center">
-                      {skill.p_proficiency_level}
+                      {skill.p_self_rating <= 3
+                        ? "BEGINEER"
+                        : skill.p_self_rating <= 7 && skill.p_self_rating > 3
+                        ? "INTERMEDIATE"
+                        : skill.p_self_rating > 7
+                        ? "EXPERT"
+                        : "SME"}
                     </TableCell>
                     <TableCell align="center">{skill.p_rating_delta}</TableCell>
                     <TableCell align="center">{skill.a_skills}</TableCell>
@@ -271,7 +277,14 @@ export default function TeamSkills1() {
                     <TableCell align="center">{skill.a_self_rating}</TableCell>
 
                     <TableCell align="center">
-                      {skill.a_proficiency_level}
+                      {skill.a_self_rating <= 3
+                        ? "BEGINEER"
+                        : skill.a_self_rating <= 7 && skill.a_self_rating > 3
+                        ? "INTERMEDIATE"
+                        : skill.a_self_rating > 7
+                        ? "EXPERT"
+                        : "SME"}
+                      {/* {skill.a_proficiency_level} */}
                     </TableCell>
                     <TableCell align="center">
                       <div>

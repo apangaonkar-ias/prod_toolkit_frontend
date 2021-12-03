@@ -253,7 +253,7 @@ export default function MyTeam1() {
               />
             </Toolbar>
             <Table sx={{ maxWidth: 600 }} aria-label="a dense table">
-              <TableHead>
+              <TableHead style={{ backgroundColor: "#F3F0D7" }}>
                 <TableRow>
                   <TableCell
                     style={{ fontWeight: "bold", fontSize: "15px" }}
