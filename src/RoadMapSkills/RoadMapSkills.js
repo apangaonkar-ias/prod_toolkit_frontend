@@ -233,10 +233,13 @@ function RoadMapSkills() {
               </Grid>
             </Form>
           </TableContainer>
+
           <TableContainer component={Paper}>
             <div style={{ textAlign: "center" }}>
               {userArray.length} employees meeting your requirement <br />
               Expected Employees:{values.no_of_emp}
+              <br />
+              Skill Gap: {values.no_of_emp - userArray.length}
             </div>
 
             <Table aria-label="a dense table">
@@ -289,6 +292,7 @@ function RoadMapSkills() {
               </TableHead>
 
               <TableBody>
+                {/* //here */}
                 {userArray.map((user) => (
                   <TableRow
                     key={user.key}
@@ -318,7 +322,6 @@ function RoadMapSkills() {
                         <Controls.Button
                           type="submit"
                           text="Refer to L&D"
-                          onClick={handleSubmit}
                           variant="outlined"
                         />
                       </div>

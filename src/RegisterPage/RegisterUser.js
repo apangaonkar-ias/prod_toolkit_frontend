@@ -6,8 +6,9 @@ import Controls from "../Controls/Controls";
 import Select from "../Controls/Select";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
-
+import { connect } from "react-redux";
 import Notification from "../Notification";
+import { fetchUsers, updateUser, saveUsers } from "../Services/index";
 
 const initialFValues = {
   employee_name: "",
@@ -25,8 +26,8 @@ const initialFValues = {
   slack_time: 0.0,
 };
 
-export default function RegisterUser(props) {
-  const { recordForEdit, openPopup, setOpenPopup, findAllUsers } = props;
+function RegisterUser(props) {
+  const { recordForEdit, openPopup, setOpenPopup, fetchUsers } = props;
 
   const [employee_name, set_employee_name] = useState("");
 
@@ -113,18 +114,21 @@ export default function RegisterUser(props) {
 
     console.log("Put ke andar ho sir");
 
-    var config = {
-      method: "put",
-      url: "http://localhost:8080/toolkit/updateEmp/" + values.e_id,
-      data: postData,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    };
+    props.updateUser(postData, values.e_id);
 
-    console.log(config.data);
+    // redux call, pass postData & values.e_id
+    // var config = {
+    //   method: "put",
+    //   url: "http://localhost:8080/toolkit/updateEmp/" + values.e_id,
+    //   data: postData,
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // };
 
-    axios(config);
+    // console.log(config.data);
+
+    // axios(config);
 
     console.log(openPopup);
 
@@ -163,19 +167,22 @@ export default function RegisterUser(props) {
         console.log(pair[0] + " " + pair[1]);
       }
 
-      var config = {
-        method: "post",
-        url: "http://localhost:8080/toolkit/addEmp",
-        data: postData,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
+      props.saveUsers(postData);
 
-      axios(config);
+      // var config = {
+      //   method: "post",
+      //   url: "http://localhost:8080/toolkit/addEmp",
+      //   data: postData,
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // };
+
+      // axios(config);
 
       setValues(initialFValues);
       setOpenPopup(false);
+      fetchUsers();
       setNotify({
         isOpen: true,
         message: "Submitted Succesfully",
@@ -185,7 +192,8 @@ export default function RegisterUser(props) {
   };
 
   useEffect(() => {
-    findAllUsers();
+    // findAllUsers();
+    props.fetchUsers();
   }, [openPopup]);
 
   useEffect(() => {
@@ -370,3 +378,21 @@ export default function RegisterUser(props) {
     </>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userData: state.user, //fetchAllUsers
+    updatedUser: state.user,
+    savedUser: state.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchUsers: () => dispatch(fetchUsers()),
+    updateUser: (postData, e_id) => dispatch(updateUser(postData, e_id)),
+    saveUsers: (postData) => dispatch(saveUsers(postData)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterUser);

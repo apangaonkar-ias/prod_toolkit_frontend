@@ -16,7 +16,6 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
-import { KeyboardEvent } from "react";
 import PageHeader from "../PageHeader/PageHeader";
 import {
   CssBaseline,
@@ -38,14 +37,11 @@ import DeleteOutlineTwoToneIcon from "@mui/icons-material/DeleteOutlineTwoTone";
 import Notification from "../Notification";
 import ConfirmDialog from "../ConfirmDialog";
 import Footer from "../Footer/Footer";
-
-import { withRouter } from "react-router";
-
-// import { getAllEmployees } from "../Services/employeeService";
-import * as employeeService from "../Services/employeeService";
 import Sidebar from "../Sidebar/Sidebar";
 import Header from "../Header/Header";
 import TableauEmp from "../TableauEmbed/TableauEmp";
+import { connect } from "react-redux";
+import { fetchUsers, deleteUser } from "../Services/index";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -62,8 +58,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 // export const [openPopup, setOpenPopup] = useState(false);
 
-export default function MyTeam1() {
-  const [users, setUsers] = useState([]);
+function MyTeam1(props) {
+  // const [users, setUsers] = useState([]);
+
+  const userData = props.userData;
+  const users = userData.users;
+  console.log(props.userData);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage, setUsersPerPage] = useState(5);
   const classes = useStyles();
@@ -92,40 +92,26 @@ export default function MyTeam1() {
   });
 
   useEffect(() => {
-    findAllUsers();
+    // findAllUsers();
+    props.fetchUsers();
   }, []);
 
-  const findAllUsers = () => {
-    console.log("in finadALLusers");
+  // const findAllUsers = () => {
+  //   console.log("in finadALLusers");
 
-    axios
-      .get("http://localhost:8080/toolkit/home")
-      .then((response) => response.data)
-      .then((data) => {
-        console.log(data);
-        setUsers(data);
-      });
+  //   axios
+  //     .get("http://localhost:8080/toolkit/home")
+  //     .then((response) => response.data)
+  //     .then((data) => {
+  //       console.log(data);
+  //       setUsers(data);
+  //     });
 
-    // employeeService.getAllEmployees();
-    // console.log(data);
-    // setUsers(data);
-  };
+  // };
 
   const currentUsers = users.slice(firstIndex, lastIndex);
 
   const totalPages = Math.ceil(users.length / usersPerPage);
-
-  //   const     handleKeywordKeyPress = (e) => {
-  //     if (e.key == "Enter" && e.target.value) {
-  //       let x = e.target.value;
-  //       if (typeof e.target.value == "string") {
-  //         x = parseInt(e.target.value);
-  //       }
-  //       this.setState({
-  //         [e.target.name]: x,
-  //       });
-  //     }
-  //   };
 
   const changePage = (e) => {
     let x = e.target.value;
@@ -175,39 +161,38 @@ export default function MyTeam1() {
     });
   };
 
-  // const addOrEdit = (employee, resetForm) => {
-  //   if (employee.id == 0) {
-  //     //employeeService.insertEmployee(employee);
-  //     axios.post("");
-  //     console.log("In add service - myteam1.js");
-  //   } else {
-  //     //employeeService.updateEmployee(employee);
-  //     console.log("In edit service - myteam1.js");
-  //   }
-  //   //resetForm();
-  //   setRecordForEdit(null);
-  //   setOpenPopup(false);
-  //   //setRecords(findAllUsers());
-  // };
-
   const deleteUser = (userId) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
     });
 
-    axios
-      .delete("http://localhost:8080/toolkit/deleteEmp/" + userId)
-      .then((response) => {
-        if (response.data != null) {
-          findAllUsers();
-          setNotify({
-            isOpen: true,
-            message: "Deleted Succesfully",
-            type: "error",
-          });
-        }
-      });
+    props.deleteUser(userId);
+    setTimeout(() => {
+      if (props.userObject != null) {
+        // findAllUsers();
+        props.fetchUsers();
+        setNotify({
+          isOpen: true,
+          message: "Deleted Succesfully",
+          type: "error",
+        });
+      }
+    }, 1000);
+
+    // axios
+    //   .delete("http://localhost:8080/toolkit/deleteEmp/" + userId)
+    //   .then((response) => {
+    //     if (response.data != null) {
+    //       // findAllUsers();
+    //       props.fetchUsers();
+    //       setNotify({
+    //         isOpen: true,
+    //         message: "Deleted Succesfully",
+    //         type: "error",
+    //       });
+    //     }
+    //   });
   };
 
   const openInPopup = (user) => {
@@ -445,7 +430,8 @@ export default function MyTeam1() {
               recordForEdit={recordForEdit}
               openPopup={openPopup}
               setOpenPopup={setOpenPopup}
-              findAllUsers={findAllUsers}
+              // findAllUsers={findAllUsers}
+              fetchUsers={fetchUsers}
             />
           </Popup>
         </div>
@@ -462,3 +448,19 @@ export default function MyTeam1() {
     </>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userData: state.user,
+    userObject: state.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchUsers: () => dispatch(fetchUsers()),
+    deleteUser: (userId) => dispatch(deleteUser(userId)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyTeam1);

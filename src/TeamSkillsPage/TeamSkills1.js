@@ -37,6 +37,8 @@ import Popup from "../Popup";
 import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
 import AddIcon from "@mui/icons-material/Add";
 import Search from "@mui/icons-material/Search";
+import { connect } from "react-redux";
+import { fetchSkills, updateSkill } from "../Services/index";
 
 const useStyles = makeStyles((theme) => ({
   pageContent: {
@@ -52,8 +54,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TeamSkills1() {
-  const [skills, setSkills] = useState([]);
+function TeamSkills1(props) {
+  // const [skills, setSkills] = useState([]);
+
+  const skillsData = props.skillsData;
+  console.log(props.skillsData);
+  const skills = skillsData.skills;
+
+  console.log(skills);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage, setUsersPerPage] = useState(5);
   const classes = useStyles();
@@ -68,19 +77,21 @@ export default function TeamSkills1() {
   const firstIndex = lastIndex - usersPerPage;
 
   useEffect(() => {
-    findAllUsers_Skills();
+    // findAllUsers_Skills();
+    props.fetchSkills();
   }, []);
 
-  const findAllUsers_Skills = () => {
-    axios
-      .get("http://localhost:8080/toolkit/home2")
-      .then((response) => response.data)
-      .then((data) => {
-        // this.setState({ skills: data });
-        setSkills(data);
-        console.log(data);
-      });
-  };
+  // const findAllUsers_Skills = () => {
+
+  //   axios
+  //     .get("http://localhost:8080/toolkit/home2")
+  //     .then((response) => response.data)
+  //     .then((data) => {
+  //       // this.setState({ skills: data });
+  //       setSkills(data);
+  //       console.log(data);
+  //     });
+  // };
 
   const openInPopup = (user) => {
     setRecordForEdit(user);
@@ -222,7 +233,7 @@ export default function TeamSkills1() {
                     style={{ fontWeight: "bold", fontSize: "15px" }}
                     align="center"
                   >
-                    Additional Skills (A.S.)
+                    Aspired Skills (A.S.)
                   </TableCell>
 
                   <TableCell
@@ -393,7 +404,8 @@ export default function TeamSkills1() {
           recordForEdit={recordForEdit}
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
-          findAllUsers_Skills={findAllUsers_Skills}
+          // fetchSkills={fetchSkills}
+          // updateSkill={updateSkill}
         />
       </Popup>
 
@@ -401,3 +413,19 @@ export default function TeamSkills1() {
     </>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    skillsData: state.skill,
+    updatedSkill: state.skill,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchSkills: () => dispatch(fetchSkills()),
+    updateSkill: (postData, e_id) => dispatch(updateSkill(postData, e_id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TeamSkills1);

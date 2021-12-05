@@ -14,6 +14,7 @@ import ProtectedRoute from "./ProtectedRoutes";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { CssBaseline } from "@material-ui/core";
+import store from "./Services/store";
 //Router - Everything enclosed under Router will be eligible for Routing
 //Route - Renders out the component based on the URL
 
@@ -27,11 +28,6 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/Roadmap" component={RoadMapSkills} />
           <Route path="/Team" component={MyTeam} />
-          {/* <ProtectedRoute
-            path="/Team"
-            component={MyTeam}
-            isAuth={auth.isLoggedIn}
-          /> */}
           <Route path="/Skills" component={TeamSkills} />
           <Route path="/Trends" component={Trends} />
           <Route path="/Register" component={RegisterUser} />

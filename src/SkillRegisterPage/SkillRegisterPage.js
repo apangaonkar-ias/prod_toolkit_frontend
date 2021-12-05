@@ -5,26 +5,31 @@ import Controls from "../Controls/Controls";
 import Select from "../Controls/Select";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
-// import * as employeeService from "../Services/employeeService";
-// import * as MyTeam from "../MyTeamPage/MyTeam1";
+
 import MyTeam1 from "../MyTeamPage/MyTeam1";
-// import {findAllUsers} from "../MyTeamPage/MyTeam1";
 import Popup from "../Popup";
 import PrimarySkill from "./PrimarySkill";
 
 import Notification from "../Notification";
 import Trial from "../Trial";
+import { connect } from "react-redux";
+// import { fetchSkills, updateSkills } from "../Services";
+import { fetchSkills, updateSkill } from "../Services/index";
 
 const initialFValues = {
   employee_name: "",
 };
 
-export default function SkillRegisterPage(props) {
-  const { recordForEdit, openPopup, setOpenPopup, findAllUsers_Skills } = props;
+function SkillRegisterPage(props) {
+  const { recordForEdit, openPopup, setOpenPopup } = props;
 
   const [employee_name, set_employee_name] = useState("");
 
   // const [openPopup, setOpenPopup] = useState(false);
+
+  const skillsData = props.skillsData;
+  console.log(props.skillsData);
+  const skills = skillsData.skills;
 
   const [flag, setFlag] = useState(-1);
   const [notify, setNotify] = useState({
@@ -109,19 +114,23 @@ export default function SkillRegisterPage(props) {
     }
 
     console.log("Put ke andar ho sir");
-    var config = {
-      method: "put",
-      url: "http://localhost:8080/toolkit/updateUserSkills/" + values.e_id,
-      data: postData,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    };
 
-    // console.log(config.data);
-    console.log("Put ke andar ho sir");
+    props.updateSkill(postData, values.e_id);
+    console.log("crossed updateskills");
 
-    axios(config);
+    // var config = {
+    //   method: "put",
+    //   url: "http://localhost:8080/toolkit/updateUserSkills/" + values.e_id,
+    //   data: postData,
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // };
+
+    // // console.log(config.data);
+    // console.log("Put ke andar ho sir");
+
+    // axios(config);
 
     // setOpenPopup(false);
 
@@ -132,52 +141,54 @@ export default function SkillRegisterPage(props) {
       message: "Submitted Succesfully",
       type: "success",
     });
+
     setOpenPopup(false);
   };
 
   useEffect(() => {
-    findAllUsers_Skills();
+    // findAllUsers_Skills();
+    props.fetchSkills();
   }, [openPopup]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("In handle Submit");
-    if (validate()) {
-      var postData = new FormData();
+    //   if (validate()) {
+    //     var postData = new FormData();
 
-      postData.append("employee_name", values.employee_name);
-      postData.append("p_skills", values.p_skills);
-      postData.append("p_self_rating", values.p_self_rating);
-      postData.append("p_manager_rating", values.p_manager_rating);
-      postData.append("p_proficiency_level", values.p_proficiency_level);
-      postData.append("p_rating_delta", values.p_rating_delta);
-      postData.append("a_skills", values.a_skills);
-      postData.append("a_self_rating", values.a_self_rating);
+    //     postData.append("employee_name", values.employee_name);
+    //     postData.append("p_skills", values.p_skills);
+    //     postData.append("p_self_rating", values.p_self_rating);
+    //     postData.append("p_manager_rating", values.p_manager_rating);
+    //     postData.append("p_proficiency_level", values.p_proficiency_level);
+    //     postData.append("p_rating_delta", values.p_rating_delta);
+    //     postData.append("a_skills", values.a_skills);
+    //     postData.append("a_self_rating", values.a_self_rating);
 
-      console.log("Inside Add");
-      console.log(postData);
+    //     console.log("Inside Add");
+    //     console.log(postData);
 
-      for (var pair of postData.entries()) {
-        console.log(pair[0] + " " + pair[1]);
-      }
+    //     for (var pair of postData.entries()) {
+    //       console.log(pair[0] + " " + pair[1]);
+    //     }
 
-      var config = {
-        method: "post",
-        url: "http://localhost:8080/toolkit/addUserSkills",
-        data: postData,
-        headers: { "Content-Type": "multipart/form-data" },
-      };
-      axios(config);
+    //     var config = {
+    //       method: "post",
+    //       url: "http://localhost:8080/toolkit/addUserSkills",
+    //       data: postData,
+    //       headers: { "Content-Type": "multipart/form-data" },
+    //     };
+    //     axios(config);
 
-      // console.log(data);
-      setValues(initialFValues);
-      setOpenPopup(false);
-      setNotify({
-        isOpen: true,
-        message: "Submitted Succesfully",
-        type: "success",
-      });
-    }
+    //     // console.log(data);
+    //     setValues(initialFValues);
+    //     setOpenPopup(false);
+    //     setNotify({
+    //       isOpen: true,
+    //       message: "Submitted Succesfully",
+    //       type: "success",
+    //     });
+    //   }
   };
 
   useEffect(() => {
@@ -299,3 +310,50 @@ export default function SkillRegisterPage(props) {
     </>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    skillsData: state.skill,
+    updatedSkill: state.skill,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchSkills: () => dispatch(fetchSkills()),
+    updateSkill: (postData, e_id) => dispatch(updateSkill(postData, e_id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SkillRegisterPage);
+
+// const mapStateToProps = (state) => {
+//   return {
+//     skillsObject: state.skill,
+//     updatedSkillObject: state.skill,
+//   };
+// };
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     fetchSkills: () => dispatch(fetchSkills()),
+//     updateSkills: (postData, e_id) => dispatch(updateSkills(postData, e_id)),
+//   };
+// };
+
+// const mapStateToProps = (state) => {
+//   return {
+//     skillsData: state.skill, //fetchAllSkills
+//     updatedSkill: state.skill,
+//   };
+// };
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     fetchSkills: () => dispatch(fetchSkills()),
+//     updateSkills: (postData, e_id) => dispatch(updateSkills(postData, e_id)),
+//   };
+// };
+
+// export default connect(mapDispatchToProps, mapStateToProps)(SkillRegisterPage);
+// export default SkillRegisterPage;
