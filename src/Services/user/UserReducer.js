@@ -5,6 +5,8 @@ import {
   UPDATE_USER_REQUEST,
   SAVE_USER_REQUEST,
   DELETE_USER_REQUEST,
+  LOGGED_IN_USER,
+  ROADMAP_SKILLS_REQUEST,
 } from "./userTypes";
 
 const initialState = {
@@ -17,6 +19,8 @@ const reducer = (state = initialState, action) => {
     case FETCH_USER_REQUEST ||
       UPDATE_USER_REQUEST ||
       SAVE_USER_REQUEST ||
+      LOGGED_IN_USER ||
+      ROADMAP_SKILLS_REQUEST ||
       DELETE_USER_REQUEST:
       return {
         ...state,

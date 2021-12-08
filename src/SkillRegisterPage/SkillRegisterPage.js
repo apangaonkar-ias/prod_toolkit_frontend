@@ -115,24 +115,29 @@ function SkillRegisterPage(props) {
 
     console.log("Put ke andar ho sir");
 
-    props.updateSkill(postData, values.e_id);
+    // props.updateSkill(postData, values.e_id);
     console.log("crossed updateskills");
+    const headers = {
+      // "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.jwtToken}`,
+    };
 
-    // var config = {
-    //   method: "put",
-    //   url: "http://localhost:8080/toolkit/updateUserSkills/" + values.e_id,
-    //   data: postData,
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // };
+    var config = {
+      method: "put",
+      url: "http://localhost:8080/toolkit/updateUserSkills/" + values.e_id,
+      data: postData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorage.jwtToken}`,
+      },
+    };
 
-    // // console.log(config.data);
-    // console.log("Put ke andar ho sir");
+    // console.log(config.data);
+    console.log("Put ke andar ho sir");
 
-    // axios(config);
+    axios(config);
 
-    // setOpenPopup(false);
+    setOpenPopup(false);
 
     // console.log("Put ke andar ho sir");
 
@@ -146,8 +151,8 @@ function SkillRegisterPage(props) {
   };
 
   useEffect(() => {
-    // findAllUsers_Skills();
-    props.fetchSkills();
+    props.findAllUsers_Skills();
+    // props.fetchSkills();
   }, [openPopup]);
 
   const handleSubmit = (e) => {

@@ -3,3 +3,24 @@
   margin-top: 10px;
   /* margin: 20px; */
 }
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  background-color: DodgerBlue;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.flex__div {
+  background-color: #f1f1f1;
+  width: 50%;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+}
+
+.flex__div > p {
+  font-size: 30px;
+  font-family: courier;
+}

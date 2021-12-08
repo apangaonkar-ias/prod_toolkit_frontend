@@ -25,7 +25,9 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
 import { arrayIncludes } from "@material-ui/pickers/_helpers/utils";
-import { border } from "@mui/system";
+import { border, borderRadius } from "@mui/system";
+import { connect } from "react-redux";
+import { roadmapSkillUsersFetch } from "../Services/index";
 
 const initialFValues = {
   required_skill: "",
@@ -38,7 +40,7 @@ const handleSubmit = () => {};
 
 const handleEdit = () => {};
 
-function RoadMapSkills() {
+function RoadMapSkills(props) {
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
@@ -102,7 +104,10 @@ function RoadMapSkills() {
         method: "post",
         url: "http://localhost:8080/toolkit/validateSkillRoadmap",
         data: postData,
-        headers: { "Content-Type": "multipart/form-data" },
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.jwtToken}`,
+        },
       };
 
       axios(config)
@@ -135,7 +140,7 @@ function RoadMapSkills() {
       setNotify({
         isOpen: true,
         message: "Searching..",
-        type: "warning",
+        type: "success",
       });
     }
   };
@@ -235,11 +240,53 @@ function RoadMapSkills() {
           </TableContainer>
 
           <TableContainer component={Paper}>
-            <div style={{ textAlign: "center" }}>
-              {userArray.length} employees meeting your requirement <br />
-              Expected Employees:{values.no_of_emp}
-              <br />
-              Skill Gap: {values.no_of_emp - userArray.length}
+            <div
+              className="flex-container"
+              style={{ border: "1px solid #ccc", borderRadius: "10px" }}
+            >
+              <h3
+                style={{
+                  textAlign: "center",
+                  fontFamily: "courier",
+                  marginBottom: "13px",
+                }}
+              >
+                Results
+              </h3>
+              <div className="flex__div">
+                <p style={{ fontFamily: "courier", textAlign: "center" }}>
+                  <i> {userArray.length} employees meeting your requirement </i>
+                </p>{" "}
+                {/* <p style={{ fontFamily: "courier", textAlign: "center" }}>
+                  {" "}
+                  <i>
+                    Expected Employees:
+                    {values.no_of_emp}
+                  </i>
+                </p> */}
+              </div>
+
+              <div className="flex__div" style={{ marginBottom: "13px" }}>
+                <p style={{ fontFamily: "courier", textAlign: "center" }}>
+                  {" "}
+                  <i>
+                    Skill Gap:{" "}
+                    {values.no_of_emp - userArray.length < 0
+                      ? "No Skill Gap"
+                      : +values.no_of_emp - userArray.length + " employees"}
+                  </i>
+                </p>
+                <p style={{ fontFamily: "courier", textAlign: "center" }}>
+                  <i>
+                    Recommendation:{" "}
+                    {values.no_of_emp - userArray.length < 0
+                      ? "You have required skill set in IAS"
+                      : +values.no_of_emp -
+                        userArray.length +
+                        " more employees need to be trained"}
+                  </i>
+                </p>
+              </div>
             </div>
 
             <Table aria-label="a dense table">
@@ -282,12 +329,12 @@ function RoadMapSkills() {
                     Slack Time
                   </TableCell>
 
-                  <TableCell
+                  {/* <TableCell
                     style={{ fontWeight: "bold", fontSize: "15px" }}
                     align="center"
                   >
                     Actions
-                  </TableCell>
+                  </TableCell> */}
                 </TableRow>
               </TableHead>
 
@@ -317,7 +364,7 @@ function RoadMapSkills() {
                       {user.value[2]}
                     </TableCell>
 
-                    <TableCell align="center">
+                    {/* <TableCell align="center">
                       <div>
                         <Controls.Button
                           type="submit"
@@ -325,7 +372,7 @@ function RoadMapSkills() {
                           variant="outlined"
                         />
                       </div>
-                    </TableCell>
+                    </TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>
@@ -339,4 +386,19 @@ function RoadMapSkills() {
   );
 }
 
-export default RoadMapSkills;
+const mapStateToProps = (state) => {
+  return {
+    userData: state.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    // fetchUsers: () => dispatch(fetchUsers()),
+    roadmapSkillUsersFetch: (postData) =>
+      dispatch(roadmapSkillUsersFetch(postData)),
+    // deleteUser: (userId) => dispatch(deleteUser(userId)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RoadMapSkills);

@@ -114,23 +114,25 @@ function RegisterUser(props) {
 
     console.log("Put ke andar ho sir");
 
-    props.updateUser(postData, values.e_id);
+    // props.updateUser(postData, values.e_id);
+    // props.findAllUsers();
 
     // redux call, pass postData & values.e_id
-    // var config = {
-    //   method: "put",
-    //   url: "http://localhost:8080/toolkit/updateEmp/" + values.e_id,
-    //   data: postData,
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // };
+    var config = {
+      method: "put",
+      url: "http://localhost:8080/toolkit/updateEmp/" + values.e_id,
+      data: postData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorage.jwtToken}`,
+      },
+    };
 
-    // console.log(config.data);
+    console.log(config.data);
 
-    // axios(config);
+    axios(config);
 
-    console.log(openPopup);
+    // console.log(openPopup);
 
     setNotify({
       isOpen: true,
@@ -167,18 +169,19 @@ function RegisterUser(props) {
         console.log(pair[0] + " " + pair[1]);
       }
 
-      props.saveUsers(postData);
+      // props.saveUsers(postData);
 
-      // var config = {
-      //   method: "post",
-      //   url: "http://localhost:8080/toolkit/addEmp",
-      //   data: postData,
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // };
+      var config = {
+        method: "post",
+        url: "http://localhost:8080/toolkit/addEmp",
+        data: postData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.jwtToken}`,
+        },
+      };
 
-      // axios(config);
+      axios(config);
 
       setValues(initialFValues);
       setOpenPopup(false);
@@ -192,8 +195,8 @@ function RegisterUser(props) {
   };
 
   useEffect(() => {
-    // findAllUsers();
-    props.fetchUsers();
+    props.findAllUsers();
+    // props.fetchUsers();
   }, [openPopup]);
 
   useEffect(() => {

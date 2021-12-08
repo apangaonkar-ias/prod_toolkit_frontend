@@ -59,10 +59,10 @@ const useStyles = makeStyles((theme) => ({
 // export const [openPopup, setOpenPopup] = useState(false);
 
 function MyTeam1(props) {
-  // const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  const userData = props.userData;
-  const users = userData.users;
+  // const userData = props.userData;
+  // const users = userData.users;
   console.log(props.userData);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage, setUsersPerPage] = useState(5);
@@ -92,22 +92,25 @@ function MyTeam1(props) {
   });
 
   useEffect(() => {
-    // findAllUsers();
-    props.fetchUsers();
+    findAllUsers();
+    // props.fetchUsers();
   }, []);
 
-  // const findAllUsers = () => {
-  //   console.log("in finadALLusers");
+  const findAllUsers = () => {
+    console.log("in finadALLusers");
+    const headers = {
+      // "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.jwtToken}`,
+    };
 
-  //   axios
-  //     .get("http://localhost:8080/toolkit/home")
-  //     .then((response) => response.data)
-  //     .then((data) => {
-  //       console.log(data);
-  //       setUsers(data);
-  //     });
-
-  // };
+    axios
+      .get("http://localhost:8080/toolkit/home", { headers: headers })
+      .then((response) => response.data)
+      .then((data) => {
+        console.log(data);
+        setUsers(data);
+      });
+  };
 
   const currentUsers = users.slice(firstIndex, lastIndex);
 
@@ -167,32 +170,39 @@ function MyTeam1(props) {
       isOpen: false,
     });
 
-    props.deleteUser(userId);
-    setTimeout(() => {
-      if (props.userObject != null) {
-        // findAllUsers();
-        props.fetchUsers();
-        setNotify({
-          isOpen: true,
-          message: "Deleted Succesfully",
-          type: "error",
-        });
-      }
-    }, 1000);
+    // props.deleteUser(userId);
+    // setTimeout(() => {
+    //   if (props.userObject != null) {
+    //     // findAllUsers();
+    //     props.fetchUsers();
+    //     setNotify({
+    //       isOpen: true,
+    //       message: "Deleted Succesfully",
+    //       type: "error",
+    //     });
+    //   }
+    // }, 1000);
 
-    // axios
-    //   .delete("http://localhost:8080/toolkit/deleteEmp/" + userId)
-    //   .then((response) => {
-    //     if (response.data != null) {
-    //       // findAllUsers();
-    //       props.fetchUsers();
-    //       setNotify({
-    //         isOpen: true,
-    //         message: "Deleted Succesfully",
-    //         type: "error",
-    //       });
-    //     }
-    //   });
+    const headers = {
+      // "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.jwtToken}`,
+    };
+
+    axios
+      .delete("http://localhost:8080/toolkit/deleteEmp/" + userId, {
+        headers: headers,
+      })
+      .then((response) => {
+        if (response.data != null) {
+          findAllUsers();
+          props.fetchUsers();
+          setNotify({
+            isOpen: true,
+            message: "Deleted Succesfully",
+            type: "error",
+          });
+        }
+      });
   };
 
   const openInPopup = (user) => {
@@ -238,7 +248,7 @@ function MyTeam1(props) {
               />
             </Toolbar>
             <Table sx={{ maxWidth: 600 }} aria-label="a dense table">
-              <TableHead style={{ backgroundColor: "#F3F0D7" }}>
+              <TableHead style={{ backgroundColor: "#A2D2FF" }}>
                 <TableRow>
                   <TableCell
                     style={{ fontWeight: "bold", fontSize: "15px" }}
@@ -430,8 +440,8 @@ function MyTeam1(props) {
               recordForEdit={recordForEdit}
               openPopup={openPopup}
               setOpenPopup={setOpenPopup}
-              // findAllUsers={findAllUsers}
-              fetchUsers={fetchUsers}
+              findAllUsers={findAllUsers}
+              // fetchUsers={fetchUsers}
             />
           </Popup>
         </div>

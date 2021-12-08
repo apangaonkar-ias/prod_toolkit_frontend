@@ -28,9 +28,9 @@ function Home() {
     <div className="app">
       <Header />
 
-      <div className="app__body">
+      <div className="app__body" style={{ height: "688px" }}>
         {/* App Body */}
-        <div>
+        <div style={{ marginTop: "8px" }}>
           <Sidebar />
         </div>
 

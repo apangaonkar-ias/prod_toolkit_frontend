@@ -55,11 +55,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function TeamSkills1(props) {
-  // const [skills, setSkills] = useState([]);
+  const [skills, setSkills] = useState([]);
 
-  const skillsData = props.skillsData;
-  console.log(props.skillsData);
-  const skills = skillsData.skills;
+  // const skillsData = props.skillsData;
+  // console.log(props.skillsData);
+  // const skills = skillsData.skills;
 
   console.log(skills);
 
@@ -77,21 +77,24 @@ function TeamSkills1(props) {
   const firstIndex = lastIndex - usersPerPage;
 
   useEffect(() => {
-    // findAllUsers_Skills();
-    props.fetchSkills();
+    findAllUsers_Skills();
+    // props.fetchSkills();
   }, []);
 
-  // const findAllUsers_Skills = () => {
-
-  //   axios
-  //     .get("http://localhost:8080/toolkit/home2")
-  //     .then((response) => response.data)
-  //     .then((data) => {
-  //       // this.setState({ skills: data });
-  //       setSkills(data);
-  //       console.log(data);
-  //     });
-  // };
+  const findAllUsers_Skills = () => {
+    const headers = {
+      // "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.jwtToken}`,
+    };
+    axios
+      .get("http://localhost:8080/toolkit/home2", { headers: headers })
+      .then((response) => response.data)
+      .then((data) => {
+        // this.setState({ skills: data });
+        setSkills(data);
+        console.log(data);
+      });
+  };
 
   const openInPopup = (user) => {
     setRecordForEdit(user);
@@ -190,7 +193,7 @@ function TeamSkills1(props) {
               />
             </Toolbar> */}
             <Table sx={{ maxWidth: 500 }} aria-label="a dense table">
-              <TableHead>
+              <TableHead style={{ backgroundColor: "#A2D2FF" }}>
                 <TableRow>
                   <TableCell
                     style={{ fontWeight: "bold", fontSize: "15px" }}
@@ -282,7 +285,11 @@ function TeamSkills1(props) {
                         ? "EXPERT"
                         : ""}
                     </TableCell>
-                    <TableCell align="center">{skill.p_rating_delta}</TableCell>
+                    <TableCell align="center">
+                      {skill.p_self_rating - skill.p_manager_rating < 0
+                        ? (skill.p_self_rating - skill.p_manager_rating) * -1
+                        : skill.p_self_rating - skill.p_manager_rating}
+                    </TableCell>
                     <TableCell align="center">{skill.a_skills}</TableCell>
 
                     <TableCell align="center">{skill.a_self_rating}</TableCell>
@@ -404,6 +411,7 @@ function TeamSkills1(props) {
           recordForEdit={recordForEdit}
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
+          findAllUsers_Skills={findAllUsers_Skills}
           // fetchSkills={fetchSkills}
           // updateSkill={updateSkill}
         />

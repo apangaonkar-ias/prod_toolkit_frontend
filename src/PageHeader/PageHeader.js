@@ -4,7 +4,11 @@ import "./PageHeader.css";
 
 export default function PageHeader(props) {
   return (
-    <Paper elevation={2} square style = {{textAlign: 'center'}}>
+    <Paper
+      elevation={2}
+      square
+      style={{ textAlign: "center", backgroundColor: "#EFEFEF" }}
+    >
       <h2>{props.title}</h2>
 
       <p>{props.subtitle}</p>

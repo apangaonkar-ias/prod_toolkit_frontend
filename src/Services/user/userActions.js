@@ -6,6 +6,8 @@ import {
   UPDATE_USER_REQUEST,
   SAVE_USER_REQUEST,
   DELETE_USER_REQUEST,
+  LOGGED_IN_USER,
+  ROADMAP_SKILLS_REQUEST,
 } from "./userTypes";
 
 export const fetchUsers = () => {
@@ -28,6 +30,26 @@ const fetchUserRequest = () => {
   };
 };
 
+export const getLoginUser = () => {
+  return (dispatch) => {
+    dispatch(loggedInUser());
+    axios
+      .get("http://localhost:8080/toolkit/getEmpDetails")
+      .then((response) => {
+        dispatch(UserSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(UserFailure(error.message));
+      });
+  };
+};
+
+const loggedInUser = () => {
+  return {
+    type: LOGGED_IN_USER,
+  };
+};
+
 export const updateUser = (postData, e_id) => {
   return (dispatch) => {
     dispatch(updateUserRequest());
@@ -44,6 +66,31 @@ export const updateUser = (postData, e_id) => {
 const updateUserRequest = () => {
   return {
     type: UPDATE_USER_REQUEST,
+  };
+};
+
+export const roadmapSkillUsersFetch = (postData) => {
+  return (dispatch) => {
+    dispatch(roadmapSkillRequest());
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    axios
+      .post("http://localhost:8080/toolkit/validateSkillRoadmap", postData, {
+        headers: headers,
+      })
+      .then((response) => {
+        dispatch(UserSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(UserFailure(error.message));
+      });
+  };
+};
+
+const roadmapSkillRequest = () => {
+  return {
+    type: ROADMAP_SKILLS_REQUEST,
   };
 };
 

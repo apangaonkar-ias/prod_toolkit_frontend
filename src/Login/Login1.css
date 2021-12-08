@@ -10,6 +10,7 @@
   justify-content: center;
   min-height: 30vh;
   padding: 50px;
+  width: 400px;
 }
 
 .image__logo {
@@ -18,4 +19,11 @@
   margin-top: 20px;
   margin-bottom: 20px;
   /* align-items: center; */
+}
+.MuiGrid-container {
+  /* background-image: url("LoginBackground.jpg"); */
+  /* background-repeat: no-repeat; */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
