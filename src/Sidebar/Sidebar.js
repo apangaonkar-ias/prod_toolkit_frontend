@@ -1,12 +1,7 @@
 import { Avatar } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import "./Sidebar.css";
-import EditIcon from "@mui/icons-material/Edit";
-import HeaderOption from "../Header/HeaderOption";
-import Controls from "../Controls/Controls";
 import Popup from "../Popup";
-import RegisterUser from "../RegisterPage/RegisterUser";
-import SkillRegisterPage from "../SkillRegisterPage/SkillRegisterPage";
 import SkillRegister1 from "../SkillRegisterPage/SkillRegister1";
 import { connect } from "react-redux";
 import { getLoginUser } from "../Services/index";
@@ -54,7 +49,7 @@ function Sidebar(props) {
       .then((response) => response.data)
       .then((data) => {
         console.log(data);
-        console.log(data[0].employee_name);
+        // console.log(data[0].employee_name);
         user = data;
         console.log(user);
         setUsers(data);

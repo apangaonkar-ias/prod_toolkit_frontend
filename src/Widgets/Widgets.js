@@ -1,18 +1,13 @@
 import React from "react";
 import "./Widgets.css";
 
-function Widgets({ title, description, image, button_text, route }) {
+function Widgets({ title, description, image }) {
   return (
     <div>
       <div className="widgets">
-        {/* <div className="widgets__content"> */}
         <h1>{title}</h1>
-
         <p>{description}</p>
-
-        <img src={image} alt="image" />
-
-        {/* </div> */}
+        <img src={image} alt="image" />={" "}
       </div>
     </div>
   );

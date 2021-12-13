@@ -11,7 +11,6 @@ import Popup from "../Popup";
 import PrimarySkill from "./PrimarySkill";
 
 import Notification from "../Notification";
-import Trial from "../Trial";
 import { connect } from "react-redux";
 // import { fetchSkills, updateSkills } from "../Services";
 import { fetchSkills, updateSkill } from "../Services/index";
@@ -89,7 +88,6 @@ function SkillRegisterPage(props) {
     useForm(initialFValues, true, validate);
 
   // const findAllUsers = MyTeam1();
-  // const { index, setIndex } = Trial();
 
   const handleEdit = (e) => {
     e.preventDefault();

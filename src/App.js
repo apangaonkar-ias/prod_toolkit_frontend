@@ -1,21 +1,15 @@
 import React from "react";
 import "./App.css";
 import Home from "./LandingPage/Home";
-import Header from "./Header/Header";
 import Login from "./Login/Login1";
 import RoadMapSkills from "./RoadMapSkills/RoadMapSkills";
 import MyTeam from "./MyTeamPage/MyTeam1";
 import TeamSkills from "./TeamSkillsPage/TeamSkills1";
 import Trends from "./TrendsPage/Trends";
 import RegisterUser from "./RegisterPage/RegisterUser";
-import Welcome from "./Welcome";
-import { Provider } from "react-redux";
-import ProtectedRoute from "./ProtectedRoutes";
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
-import { CssBaseline } from "@material-ui/core";
 import Logout from "./LogoutPage/Logout";
-import store from "./Services/store";
 //Router - Everything enclosed under Router will be eligible for Routing
 //Route - Renders out the component based on the URL
 
@@ -23,8 +17,6 @@ function App() {
   return (
     <>
       <Router>
-        {/* <Header /> */}
-        {/* <Home /> */}
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/Roadmap" component={RoadMapSkills} />

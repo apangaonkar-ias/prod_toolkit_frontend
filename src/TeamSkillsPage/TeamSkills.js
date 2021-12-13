@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import teamSkillImage from "../images/skills.jpg";
-import Widgets from "../Widgets/Widgets";
+
 import "./TeamSkills.css";
 import axios from "axios";
-import { ConstructionRounded } from "@mui/icons-material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,7 +9,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { render } from "@testing-library/react";
 import Button from "@mui/material/Button";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import LastPageIcon from "@mui/icons-material/LastPage";
@@ -43,9 +40,7 @@ export default class TeamSkills extends Component {
       .then((data) => {
         this.setState({ skills: data });
         console.log(data);
-  
       });
-      
   }
   handleKeywordKeyPress = (e) => {
     if (e.key == "Enter" && e.target.value) {
@@ -112,7 +107,6 @@ export default class TeamSkills extends Component {
   };
 
   render() {
-
     const { skills, currentPage, usersPerPage } = this.state;
     const lastIndex = currentPage * usersPerPage;
     const firstIndex = lastIndex - usersPerPage;
@@ -121,7 +115,10 @@ export default class TeamSkills extends Component {
 
     return (
       <div className="TeamTable">
-        <PageHeader title="Team Skills Page" subtitle="Check skills your team possesses" />
+        <PageHeader
+          title="Team Skills Page"
+          subtitle="Check skills your team possesses"
+        />
         <TableContainer component={Paper}>
           <Table sx={{ maxWidth: 500 }} aria-label="a dense table">
             <TableHead>
@@ -284,15 +281,14 @@ export default class TeamSkills extends Component {
               </FormGroup>
             </div>
           </div>
-
         </TableContainer>
         <Paper
-            elevation={2}
-            square
-            style={{ textAlign: "center", height: "400px" }}
-          >
-            <h3 style={{ paddingTop: "180px" }}>Looker Representation</h3>
-          </Paper>
+          elevation={2}
+          square
+          style={{ textAlign: "center", height: "400px" }}
+        >
+          <h3 style={{ paddingTop: "180px" }}>Looker Representation</h3>
+        </Paper>
       </div>
     );
   }

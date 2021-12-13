@@ -1,9 +1,6 @@
-import React, { useState, useEffect, Component } from "react";
-import teamSkillImage from "../images/skills.jpg";
-import Widgets from "../Widgets/Widgets";
+import React, { useState, useEffect } from "react";
 import "./TeamSkills.css";
 import axios from "axios";
-import { ConstructionRounded } from "@mui/icons-material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,7 +8,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { render } from "@testing-library/react";
 import Button from "@mui/material/Button";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import LastPageIcon from "@mui/icons-material/LastPage";
@@ -20,12 +16,7 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import FormGroup from "@mui/material/FormGroup";
 import TextField from "@mui/material/TextField";
 import PageHeader from "../PageHeader/PageHeader";
-import {
-  CssBaseline,
-  Toolbar,
-  InputAdornment,
-  makeStyles,
-} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import Sidebar from "../Sidebar/Sidebar";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
@@ -35,8 +26,6 @@ import SkillRegisterPage from "../SkillRegisterPage/SkillRegisterPage";
 import Controls from "../Controls/Controls";
 import Popup from "../Popup";
 import ModeEditOutlineTwoToneIcon from "@mui/icons-material/ModeEditOutlineTwoTone";
-import AddIcon from "@mui/icons-material/Add";
-import Search from "@mui/icons-material/Search";
 import { connect } from "react-redux";
 import { fetchSkills, updateSkill } from "../Services/index";
 
@@ -56,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
 
 function TeamSkills1(props) {
   const [skills, setSkills] = useState([]);
+
+  const { state } = props.location;
+
+  console.log(state);
 
   // const skillsData = props.skillsData;
   // console.log(props.skillsData);

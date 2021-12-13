@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ConfirmDialog(props) {
   const classes = useStyles();
-  const { color, confirmDialog, setConfirmDialog } = props;
+  const { confirmDialog, setConfirmDialog } = props;
 
   return (
     <Dialog open={confirmDialog.isOpen} className={{ paper: classes.dialog }}>

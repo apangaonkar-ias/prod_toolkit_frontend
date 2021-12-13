@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./MyTeam.css";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -17,18 +16,10 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import PageHeader from "../PageHeader/PageHeader";
-import {
-  CssBaseline,
-  Toolbar,
-  InputAdornment,
-  makeStyles,
-} from "@material-ui/core";
+import { CssBaseline, Toolbar, makeStyles } from "@material-ui/core";
 
-import ModeEditOutlineIcon from "@mui/icons-material/ModeEditOutline";
-import DeleteIcon from "@mui/icons-material/Delete";
 import RegisterUser from "../RegisterPage/RegisterUser";
 import Controls from "../Controls/Controls";
-import Search from "@mui/icons-material/Search";
 import AddIcon from "@mui/icons-material/Add";
 import Popup from "../Popup";
 import "../TeamSkillsPage/TeamSkills";
@@ -64,6 +55,10 @@ function MyTeam1(props) {
   // const userData = props.userData;
   // const users = userData.users;
   console.log(props.userData);
+
+  const { state } = props.location;
+
+  console.log(state);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage, setUsersPerPage] = useState(5);
   const classes = useStyles();
@@ -233,19 +228,20 @@ function MyTeam1(props) {
                 }}
                 onChange={handleSearch}
               /> */}
-
-              <Controls.Button
-                text="Add New"
-                variant="outlined"
-                startIcon={<AddIcon />}
-                className={classes.newButton}
-                onClick={() => {
-                  console.log("in on click");
-                  setOpenPopup(true);
-                  setRecordForEdit(null);
-                  console.log("after on click");
-                }}
-              />
+              {state.role == "Manager" && (
+                <Controls.Button
+                  text="Add New"
+                  variant="outlined"
+                  startIcon={<AddIcon />}
+                  className={classes.newButton}
+                  onClick={() => {
+                    console.log("in on click");
+                    setOpenPopup(true);
+                    setRecordForEdit(null);
+                    console.log("after on click");
+                  }}
+                />
+              )}
             </Toolbar>
             <Table sx={{ maxWidth: 600 }} aria-label="a dense table">
               <TableHead style={{ backgroundColor: "#A2D2FF" }}>
@@ -326,32 +322,35 @@ function MyTeam1(props) {
                     <TableCell align="center">{user.ad_tech_exp}</TableCell>
                     <TableCell align="center">
                       <div>
-                        <Controls.ActionButton
-                          color="primary"
-                          variant="outlined"
-                          onClick={() => {
-                            openInPopup(user);
-                          }}
-                        >
-                          <ModeEditOutlineTwoToneIcon fontSize="small" />
-                        </Controls.ActionButton>
-
-                        <Controls.ActionButton
-                          color="secondary"
-                          variant="outlined"
-                          onClick={() => {
-                            setConfirmDialog({
-                              isOpen: true,
-                              title: "Are you sure you want to delete?",
-                              subTitle: "You can't undo this operation",
-                              onConfirm: () => {
-                                deleteUser(user.e_id);
-                              },
-                            });
-                          }}
-                        >
-                          <DeleteOutlineTwoToneIcon fontSize="small" />
-                        </Controls.ActionButton>
+                        {state.e_id == user.e_id && state.role == "Manager" && (
+                          <Controls.ActionButton
+                            color="primary"
+                            variant="outlined"
+                            onClick={() => {
+                              openInPopup(user);
+                            }}
+                          >
+                            <ModeEditOutlineTwoToneIcon fontSize="small" />
+                          </Controls.ActionButton>
+                        )}
+                        {state.role == "Manager" && (
+                          <Controls.ActionButton
+                            color="secondary"
+                            variant="outlined"
+                            onClick={() => {
+                              setConfirmDialog({
+                                isOpen: true,
+                                title: "Are you sure you want to delete?",
+                                subTitle: "You can't undo this operation",
+                                onConfirm: () => {
+                                  deleteUser(user.e_id);
+                                },
+                              });
+                            }}
+                          >
+                            <DeleteOutlineTwoToneIcon fontSize="small" />
+                          </Controls.ActionButton>
+                        )}
                       </div>
                     </TableCell>
                   </TableRow>
