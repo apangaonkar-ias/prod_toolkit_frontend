@@ -228,20 +228,20 @@ function MyTeam1(props) {
                 }}
                 onChange={handleSearch}
               /> */}
-              {state.role == "Manager" && (
-                <Controls.Button
-                  text="Add New"
-                  variant="outlined"
-                  startIcon={<AddIcon />}
-                  className={classes.newButton}
-                  onClick={() => {
-                    console.log("in on click");
-                    setOpenPopup(true);
-                    setRecordForEdit(null);
-                    console.log("after on click");
-                  }}
-                />
-              )}
+              {/* {state.role == "Manager" && ( */}
+              <Controls.Button
+                text="Add New"
+                variant="outlined"
+                startIcon={<AddIcon />}
+                className={classes.newButton}
+                onClick={() => {
+                  console.log("in on click");
+                  setOpenPopup(true);
+                  setRecordForEdit(null);
+                  console.log("after on click");
+                }}
+              />
+              {/* )} */}
             </Toolbar>
             <Table sx={{ maxWidth: 600 }} aria-label="a dense table">
               <TableHead style={{ backgroundColor: "#A2D2FF" }}>
@@ -322,35 +322,35 @@ function MyTeam1(props) {
                     <TableCell align="center">{user.ad_tech_exp}</TableCell>
                     <TableCell align="center">
                       <div>
-                        {state.e_id == user.e_id && state.role == "Manager" && (
-                          <Controls.ActionButton
-                            color="primary"
-                            variant="outlined"
-                            onClick={() => {
-                              openInPopup(user);
-                            }}
-                          >
-                            <ModeEditOutlineTwoToneIcon fontSize="small" />
-                          </Controls.ActionButton>
-                        )}
-                        {state.role == "Manager" && (
-                          <Controls.ActionButton
-                            color="secondary"
-                            variant="outlined"
-                            onClick={() => {
-                              setConfirmDialog({
-                                isOpen: true,
-                                title: "Are you sure you want to delete?",
-                                subTitle: "You can't undo this operation",
-                                onConfirm: () => {
-                                  deleteUser(user.e_id);
-                                },
-                              });
-                            }}
-                          >
-                            <DeleteOutlineTwoToneIcon fontSize="small" />
-                          </Controls.ActionButton>
-                        )}
+                        {/* {state.e_id == user.e_id && state.role == "Manager" && ( */}
+                        <Controls.ActionButton
+                          color="primary"
+                          variant="outlined"
+                          onClick={() => {
+                            openInPopup(user);
+                          }}
+                        >
+                          <ModeEditOutlineTwoToneIcon fontSize="small" />
+                        </Controls.ActionButton>
+                        {/* )} */}
+                        {/* {state.role == "Manager" && ( */}
+                        <Controls.ActionButton
+                          color="secondary"
+                          variant="outlined"
+                          onClick={() => {
+                            setConfirmDialog({
+                              isOpen: true,
+                              title: "Are you sure you want to delete?",
+                              subTitle: "You can't undo this operation",
+                              onConfirm: () => {
+                                deleteUser(user.e_id);
+                              },
+                            });
+                          }}
+                        >
+                          <DeleteOutlineTwoToneIcon fontSize="small" />
+                        </Controls.ActionButton>
+                        {/* )} */}
                       </div>
                     </TableCell>
                   </TableRow>

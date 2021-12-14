@@ -26,7 +26,7 @@ export default function Logout() {
                 variant="elevation"
                 elevation={4}
                 className="login-background"
-                style={{ width: "350px" }}
+                style={{ width: "350px", padding: "50px" }}
               >
                 <Grid item>
                   <div
@@ -41,7 +41,6 @@ export default function Logout() {
                       alt="Image"
                       style={{ width: "250px", height: "55px" }}
                     ></img>
-                    {/* <h3>Productivity Toolkit</h3> */}
                   </div>
                 </Grid>
                 <Grid item>

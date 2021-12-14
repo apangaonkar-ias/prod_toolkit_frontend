@@ -7,7 +7,7 @@ function Widgets({ title, description, image }) {
       <div className="widgets">
         <h1>{title}</h1>
         <p>{description}</p>
-        <img src={image} alt="image" />={" "}
+        <img src={image} alt="image" />{" "}
       </div>
     </div>
   );

@@ -59,7 +59,7 @@ class Login extends React.Component {
 
     return (
       <>
-        <div style={{ backgroundImage: "url: LoginBackground.jpg" }}>
+        <div>
           <Header />
 
           <Grid container spacing={0} justify="center" direction="row">
@@ -77,7 +77,7 @@ class Login extends React.Component {
                   variant="elevation"
                   elevation={4}
                   className="login-background"
-                  style={{ width: "350px" }}
+                  style={{ width: "350px", padding: "50px" }}
                 >
                   <Grid item>
                     <div

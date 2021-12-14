@@ -58,10 +58,7 @@ function Home() {
         {currentUsers.map((user) => (
           <div className="widgetsss" key={user.e_id}>
             <div className="widget_padding">
-              <Link
-                to={{ pathname: "/Team", state: user }}
-                style={{ textDecoration: "none" }}
-              >
+              <Link to="/Team" style={{ textDecoration: "none" }}>
                 <Widgets
                   title="My Team"
                   description="Manage & Organize your team here"
@@ -70,27 +67,23 @@ function Home() {
                 />
               </Link>
             </div>
-            {user.role === "Business Head" ||
-              (user.role === "Manager" && (
-                <div className="widget_padding">
-                  <Link
-                    to={{ pathname: "/Roadmap", state: user }}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <Widgets
-                      title="Skill Roadmap"
-                      description="View Skills Roadmap in one go!"
-                      image={projectImage}
-                      button_text="Manage Roadmap"
-                    />
-                  </Link>
-                </div>
-              ))}
+
+            {user.role === "Manager" || user.role === "Business Head" ? (
+              <div className="widget_padding">
+                <Link to="/Roadmap" style={{ textDecoration: "none" }}>
+                  <Widgets
+                    title="Skill Roadmap"
+                    description="View Skills Roadmap in one go!"
+                    image={projectImage}
+                    button_text="Manage Roadmap"
+                  />
+                </Link>
+              </div>
+            ) : (
+              ""
+            )}
             <div className="widget_padding">
-              <Link
-                to={{ pathname: "/Skills", state: user }}
-                style={{ textDecoration: "none" }}
-              >
+              <Link to="/Skills" style={{ textDecoration: "none" }}>
                 <Widgets
                   title="Team Skills"
                   description="View the skills your team possesses"
@@ -99,12 +92,9 @@ function Home() {
                 />
               </Link>
             </div>
-            {user.role === "Business Head" && (
+            {user.role === "Business Head" ? (
               <div className="widget_padding">
-                <Link
-                  to={{ pathname: "/Trends", state: user }}
-                  style={{ textDecoration: "none" }}
-                >
+                <Link to="/Trends" style={{ textDecoration: "none" }}>
                   <Widgets
                     title="Trends"
                     description="View skill development trends"
@@ -113,6 +103,8 @@ function Home() {
                   />
                 </Link>
               </div>
+            ) : (
+              ""
             )}
           </div>
         ))}
