@@ -10,6 +10,7 @@ import RegisterUser from "./RegisterPage/RegisterUser";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import Logout from "./LogoutPage/Logout";
+
 //Router - Everything enclosed under Router will be eligible for Routing
 //Route - Renders out the component based on the URL
 
@@ -31,6 +32,7 @@ function App() {
     </>
   );
 }
+
 const mapStateToProps = (state) => {
   return {
     auth: state.auth,
