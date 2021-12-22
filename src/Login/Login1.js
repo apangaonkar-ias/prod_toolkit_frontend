@@ -42,7 +42,7 @@ class Login extends React.Component {
 
     setTimeout(() => {
       if (this.props.auth.isLoggedIn) {
-        return this.props.history.push("/");
+        return this.props.history.push("/Home");
       } else {
         this.resetLoginForm();
         this.setState({ error: "Invaid email and password" });

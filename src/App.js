@@ -20,6 +20,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/" exact component={Login} />
+          <Route path="/Home" exact component={Home} />
           <Route path="/Roadmap" component={RoadMapSkills} />
           <Route path="/Team" component={MyTeam} />
           <Route path="/Skills" component={TeamSkills} />

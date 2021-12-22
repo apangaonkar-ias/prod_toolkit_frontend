@@ -34,21 +34,21 @@ function Header(props) {
     axios(config)
       .then((response) => response.data)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         user = data;
-        console.log(user);
+        // console.log(user);
         setUsers(data);
       });
   };
 
   const currentUsers = users.slice();
-  console.log(currentUsers);
-  console.log(users);
+  // console.log(currentUsers);
+  // console.log(users);
 
   const guestLinks = () => (
     <>
       <div className="header__right">
-        <Link to="/Login" style={{ textDecoration: "none" }}>
+        <Link to="/" style={{ textDecoration: "none" }}>
           <HeaderOption Icon={LoginIcon} title="Login" />
         </Link>
 
@@ -61,10 +61,9 @@ function Header(props) {
 
   const userLinks = () => (
     <>
-      {/* {console.log(user.role)} */}
       {currentUsers.map((user) => (
         <div className="header__right">
-          <Link to="/" style={{ textDecoration: "none" }}>
+          <Link to="/Home" style={{ textDecoration: "none" }}>
             <HeaderOption Icon={HomeIcon} title="Home" />
           </Link>
 

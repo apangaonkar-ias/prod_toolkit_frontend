@@ -56,7 +56,7 @@ export default function Logout() {
                         You've been logged out!
                       </h3>
                       <Grid item>
-                        <Link to="/Login" style={{ textDecoration: "none" }}>
+                        <Link to="/" style={{ textDecoration: "none" }}>
                           <Button
                             style={{ marginBottom: "0px" }}
                             variant="contained"

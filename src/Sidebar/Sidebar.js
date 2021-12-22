@@ -27,14 +27,14 @@ function Sidebar(props) {
     axios(config)
       .then((response) => response.data)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         // console.log(data[0].employee_name);
         skill = data;
 
         setSkills(skill);
       });
   };
-  console.log(skills);
+  // console.log(skills);
 
   const getLoggedInDetails = () => {
     var config = {
@@ -48,17 +48,17 @@ function Sidebar(props) {
     axios(config)
       .then((response) => response.data)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         // console.log(data[0].employee_name);
         user = data;
-        console.log(user);
+        // console.log(user);
         setUsers(data);
       });
   };
-  console.log(users);
+  // console.log(users);
 
   const currentUsers = users.slice();
-  console.log(currentUsers);
+  // console.log(currentUsers);
 
   const currentSkills = skills.slice();
   // console.log(currentSkills[0].e_id);

@@ -17,7 +17,6 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 import PageHeader from "../PageHeader/PageHeader";
 import { CssBaseline, Toolbar, makeStyles } from "@material-ui/core";
-
 import RegisterUser from "../RegisterPage/RegisterUser";
 import Controls from "../Controls/Controls";
 import AddIcon from "@mui/icons-material/Add";
@@ -47,18 +46,12 @@ const useStyles = makeStyles((theme) => ({
     right: "10px",
   },
 }));
-// export const [openPopup, setOpenPopup] = useState(false);
 
 function MyTeam1(props) {
   const [users, setUsers] = useState([]);
 
-  // const userData = props.userData;
-  // const users = userData.users;
   console.log(props.userData);
 
-  const { state } = props.location;
-
-  console.log(state);
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage, setUsersPerPage] = useState(5);
   const classes = useStyles();
@@ -88,13 +81,40 @@ function MyTeam1(props) {
 
   useEffect(() => {
     findAllUsers();
+    getLoggedInDetails();
+    console.log(logged_in_user);
     // props.fetchUsers();
   }, []);
+
+  let logged_user = [];
+  const [logged_in_user, set_logged_in_user] = useState([]);
+
+  const getLoggedInDetails = () => {
+    var config = {
+      method: "get",
+      url: "http://localhost:8080/toolkit/getEmpDetails",
+      headers: {
+        Authorization: `Bearer ${localStorage.jwtToken}`,
+      },
+    };
+
+    axios(config)
+      .then((response) => response.data)
+      .then((data) => {
+        console.log(data);
+        logged_user = data;
+        console.log(logged_user);
+        set_logged_in_user(data);
+      });
+    console.log(logged_in_user);
+  };
+
+  const current_logged_in_user = logged_in_user.slice();
+  console.log(current_logged_in_user);
 
   const findAllUsers = () => {
     console.log("in finadALLusers");
     const headers = {
-      // "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${localStorage.jwtToken}`,
     };
 
@@ -113,7 +133,6 @@ function MyTeam1(props) {
 
   const changePage = (e) => {
     let x = e.target.value;
-
     if (typeof x == "string" && x) {
       x = parseInt(x);
     }
@@ -145,19 +164,19 @@ function MyTeam1(props) {
     }
   };
 
-  const handleSearch = (e) => {
-    console.log("Inside Handle Search");
-    let target = e.target;
-    setFilterFn({
-      fn: (users) => {
-        if (target.value == "") return users;
-        else
-          return users.filter((x) =>
-            x.employee_name.toLowerCase().includes(target.value)
-          );
-      },
-    });
-  };
+  // const handleSearch = (e) => {
+  //   console.log("Inside Handle Search");
+  //   let target = e.target;
+  //   setFilterFn({
+  //     fn: (users) => {
+  //       if (target.value == "") return users;
+  //       else
+  //         return users.filter((x) =>
+  //           x.employee_name.toLowerCase().includes(target.value)
+  //         );
+  //     },
+  //   });
+  // };
 
   const deleteUser = (userId) => {
     setConfirmDialog({
@@ -165,21 +184,7 @@ function MyTeam1(props) {
       isOpen: false,
     });
 
-    // props.deleteUser(userId);
-    // setTimeout(() => {
-    //   if (props.userObject != null) {
-    //     // findAllUsers();
-    //     props.fetchUsers();
-    //     setNotify({
-    //       isOpen: true,
-    //       message: "Deleted Succesfully",
-    //       type: "error",
-    //     });
-    //   }
-    // }, 1000);
-
     const headers = {
-      // "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${localStorage.jwtToken}`,
     };
 
@@ -215,34 +220,26 @@ function MyTeam1(props) {
         <div className="TeamTable">
           <PageHeader title="Team Page" subtitle="Make your team now!" />
           <TableContainer component={Paper}>
-            <Toolbar>
-              {/* <Controls.Input
-                label="Search Employees"
-                className={classes.searchInput}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search />
-                    </InputAdornment>
-                  ),
-                }}
-                onChange={handleSearch}
-              /> */}
-              {/* {state.role == "Manager" && ( */}
-              <Controls.Button
-                text="Add New"
-                variant="outlined"
-                startIcon={<AddIcon />}
-                className={classes.newButton}
-                onClick={() => {
-                  console.log("in on click");
-                  setOpenPopup(true);
-                  setRecordForEdit(null);
-                  console.log("after on click");
-                }}
-              />
-              {/* )} */}
-            </Toolbar>
+            {current_logged_in_user.map((loggedUser) => (
+              <Toolbar>
+                {loggedUser.role === "Manager" ? (
+                  <Controls.Button
+                    text="Add New"
+                    variant="outlined"
+                    startIcon={<AddIcon />}
+                    className={classes.newButton}
+                    onClick={() => {
+                      console.log("in on click");
+                      setOpenPopup(true);
+                      setRecordForEdit(null);
+                      console.log("after on click");
+                    }}
+                  />
+                ) : (
+                  ""
+                )}
+              </Toolbar>
+            ))}
             <Table sx={{ maxWidth: 600 }} aria-label="a dense table">
               <TableHead style={{ backgroundColor: "#A2D2FF" }}>
                 <TableRow>
@@ -321,37 +318,42 @@ function MyTeam1(props) {
                     <TableCell align="center">{user.total_exp}</TableCell>
                     <TableCell align="center">{user.ad_tech_exp}</TableCell>
                     <TableCell align="center">
-                      <div>
-                        {/* {state.e_id == user.e_id && state.role == "Manager" && ( */}
-                        <Controls.ActionButton
-                          color="primary"
-                          variant="outlined"
-                          onClick={() => {
-                            openInPopup(user);
-                          }}
-                        >
-                          <ModeEditOutlineTwoToneIcon fontSize="small" />
-                        </Controls.ActionButton>
-                        {/* )} */}
-                        {/* {state.role == "Manager" && ( */}
-                        <Controls.ActionButton
-                          color="secondary"
-                          variant="outlined"
-                          onClick={() => {
-                            setConfirmDialog({
-                              isOpen: true,
-                              title: "Are you sure you want to delete?",
-                              subTitle: "You can't undo this operation",
-                              onConfirm: () => {
-                                deleteUser(user.e_id);
-                              },
-                            });
-                          }}
-                        >
-                          <DeleteOutlineTwoToneIcon fontSize="small" />
-                        </Controls.ActionButton>
-                        {/* )} */}
-                      </div>
+                      {current_logged_in_user.map((loggedUser) => (
+                        <div>
+                          {loggedUser.role === "Manager" ||
+                          loggedUser.e_id === user.e_id ? (
+                            <Controls.ActionButton
+                              color="primary"
+                              variant="outlined"
+                              onClick={() => {
+                                openInPopup(user);
+                              }}
+                            >
+                              <ModeEditOutlineTwoToneIcon fontSize="small" />
+                            </Controls.ActionButton>
+                          ) : (
+                            ""
+                          )}
+                          {loggedUser.role === "Manager" && (
+                            <Controls.ActionButton
+                              color="secondary"
+                              variant="outlined"
+                              onClick={() => {
+                                setConfirmDialog({
+                                  isOpen: true,
+                                  title: "Are you sure you want to delete?",
+                                  subTitle: "You can't undo this operation",
+                                  onConfirm: () => {
+                                    deleteUser(user.e_id);
+                                  },
+                                });
+                              }}
+                            >
+                              <DeleteOutlineTwoToneIcon fontSize="small" />
+                            </Controls.ActionButton>
+                          )}
+                        </div>
+                      ))}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -391,7 +393,6 @@ function MyTeam1(props) {
                   <div>
                     <TextField
                       id="filled-basic"
-                      //label="Page"
                       variant="outlined"
                       className="pageField"
                       name="currentPage"
@@ -427,8 +428,6 @@ function MyTeam1(props) {
             style={{ textAlign: "center", height: "850px" }}
           >
             <TableauEmp />
-            {/* <h3 style={{ paddingTop: "180px" }}>Looker Representation</h3> */}
-            {/* <div class='tableauPlaceholder' id='viz1637923496020' ><noscript><a href='#'><img alt='Sheet 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Em&#47;EmplyeeExp&#47;Sheet1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='EmplyeeExp&#47;Sheet1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Em&#47;EmplyeeExp&#47;Sheet1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='en-GB' /><param name='filter' value='publish=yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1637923496020');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script> */}
           </Paper>
           <Popup
             title="Employee Form"

@@ -69,21 +69,45 @@ function TeamSkills1(props) {
   const lastIndex = currentPage * usersPerPage;
   const firstIndex = lastIndex - usersPerPage;
 
+  let logged_user = [];
+  const [logged_in_user, set_logged_in_user] = useState([]);
+
   useEffect(() => {
     findAllUsers_Skills();
-    // props.fetchSkills();
+    getLoggedInDetails();
   }, []);
+
+  const getLoggedInDetails = () => {
+    var config = {
+      method: "get",
+      url: "http://localhost:8080/toolkit/getEmpDetails",
+      headers: {
+        Authorization: `Bearer ${localStorage.jwtToken}`,
+      },
+    };
+
+    axios(config)
+      .then((response) => response.data)
+      .then((data) => {
+        console.log(data);
+        logged_user = data;
+        console.log(logged_user);
+        set_logged_in_user(data);
+      });
+    console.log(logged_in_user);
+  };
+
+  const current_logged_in_user = logged_in_user.slice();
+  console.log(current_logged_in_user);
 
   const findAllUsers_Skills = () => {
     const headers = {
-      // "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${localStorage.jwtToken}`,
     };
     axios
       .get("http://localhost:8080/toolkit/home2", { headers: headers })
       .then((response) => response.data)
       .then((data) => {
-        // this.setState({ skills: data });
         setSkills(data);
         console.log(data);
       });
@@ -132,19 +156,6 @@ function TeamSkills1(props) {
     }
   };
 
-  const handleSearch = (e) => {
-    let target = e.target;
-    setFilterFn({
-      fn: (items) => {
-        if (target.value == "") return items;
-        else
-          return items.filter((x) =>
-            x.fullName.toLowerCase().includes(target.value)
-          );
-      },
-    });
-  };
-
   return (
     <>
       <Header></Header>
@@ -158,33 +169,6 @@ function TeamSkills1(props) {
             subtitle="Check skills your team possesses"
           />
           <TableContainer component={Paper}>
-            {/* <Toolbar>
-              <Controls.Input
-                label="Search Employees"
-                className={classes.searchInput}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Search />
-                    </InputAdornment>
-                  ),
-                }}
-                onChange={handleSearch}
-              />
-
-              <Controls.Button
-                text="Add New"
-                variant="outlined"
-                startIcon={<AddIcon />}
-                className={classes.newButton}
-                onClick={() => {
-                  console.log("in on click");
-                  setOpenPopup(true);
-                  setRecordForEdit(null);
-                  console.log("after on click");
-                }}
-              />
-            </Toolbar> */}
             <Table sx={{ maxWidth: 500 }} aria-label="a dense table">
               <TableHead style={{ backgroundColor: "#A2D2FF" }}>
                 <TableRow>
@@ -298,17 +282,24 @@ function TeamSkills1(props) {
                       {/* {skill.a_proficiency_level} */}
                     </TableCell>
                     <TableCell align="center">
-                      <div>
-                        <Controls.ActionButton
-                          color="primary"
-                          variant="outlined"
-                          onClick={() => {
-                            openInPopup(skill);
-                          }}
-                        >
-                          <ModeEditOutlineTwoToneIcon fontSize="small" />
-                        </Controls.ActionButton>
-                      </div>
+                      {current_logged_in_user.map((loggedUser) => (
+                        <div>
+                          {loggedUser.role === "Manager" ||
+                          loggedUser.e_id === skill.e_id ? (
+                            <Controls.ActionButton
+                              color="primary"
+                              variant="outlined"
+                              onClick={() => {
+                                openInPopup(skill);
+                              }}
+                            >
+                              <ModeEditOutlineTwoToneIcon fontSize="small" />
+                            </Controls.ActionButton>
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                      ))}
                     </TableCell>
                   </TableRow>
                 ))}
