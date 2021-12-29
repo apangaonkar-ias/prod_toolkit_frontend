@@ -4,9 +4,7 @@ const { tableau } = window;
 
 export default function Bottom3Skills_mgr() {
   const ref = useRef(null);
-  // const url = "https://public.tableau.com/views/EmplyeeExp/Sheet1";
   const url =
-    // "  https://public.tableau.com/views/EmplyeeAdTechExperienceTeamSpecific/Dashboard1";
     "https://public.tableau.com/views/Bottom3SkillsIAS/Bottom3quality";
   const options = {
     device: "desktop",
